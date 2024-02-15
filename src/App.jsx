@@ -1,6 +1,6 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import './App.css'
-import ShowProducts from './components/ShowProducts.js'
+import ShowProducts from './components/ShowProducts.jsx'
 
 function Header() {
   return (
