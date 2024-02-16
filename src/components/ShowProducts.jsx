@@ -5,7 +5,7 @@ import axios from 'axios'
 
 const ShowProducts = () => {
   const url = PROCESS.ENV.API_URL
-  const {products, setProducts} = useState([])
+  const [products, setProducts] = useState([])
   const {id, setId} = useState('')
   const {name, setName} = useState('')
   const {brand, setBrand} = useState('')
@@ -19,7 +19,7 @@ const ShowProducts = () => {
 
   useEffect(() => {
     getProducts()
-  })
+  }, [])
 
   const getProducts = async () => {
     const response = await axios.get(url + 'productos')
@@ -63,13 +63,21 @@ const ShowProducts = () => {
                     <td>{product.description}</td>
                     <td>{product.price}</td>
                     <td>{product.stock}</td>
-                    
+                  </tr>
+                ))}
+              </tbody>
+            </table>
         </div>
       </div>
-      <div className='modal fade'>
-
-      </div>
     </div>
+      <div className='modal fade' id='modalProducts' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+        <div className='modal-dialog'>
+          <div className='modal-content'>
+          {/* Your modal content goes here */}
+        </div>
+    </div>
+  </div>
+  </div>
   )
 }
 
