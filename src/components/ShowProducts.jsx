@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import 'dotenv/config'
 import axios from 'axios'
 
 const url = import.meta.env.API_URL
 
 const ShowProducts = () => {
-  const [products, setProducts] = useState([])
+  const [setProducts] = useState([])
 
   useEffect(() => {
     getProducts()
   })
 
   const getProducts = async () => {
-    const response = await axios.get('http://localhost:3000/api/productos')
+    const response = await axios.get(url + 'productos')
     setProducts(response.data)
   }
 

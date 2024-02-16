@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "eslintConfig": {
-		"extends": "standard"
+    "extends": "standard"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "6.5.1",
@@ -24,6 +24,7 @@
     "sweetalert2-react-content": "5.0.7"
   },
   "devDependencies": {
+    "@types/bootstrap": "5.2.10",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react-swc": "^3.5.0",
