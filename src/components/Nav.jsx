@@ -1,44 +1,42 @@
-import React from 'react'
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-// import './Nav.css'
+import { Link, useNavigate } from 'react-router-dom'
+import storage from '../storage/storage.jsx'
 
 const NavbarComponent = () => {
+  const go = useNavigate()
+  const logout = () => {
+    storage.remove('authToken')
+    storage.remove('authUser')
+    go('/login')
+  } 
   return (
-    <Navbar bg="primary" data-bs-theme="dark" expand="lg" className="bg-body-nav">
-      <Container>
-        <img src="/logo.ico" alt="Logo.ico" style={
-          {width: '65px',
-          height: '65px'}
-        } />
-        <Navbar.Brand href="#home">ConstrumantaP</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-          <Nav.Link href="#usuarios">Usuarios</Nav.Link>
-            <Nav.Link href="#inventario">Inventario</Nav.Link>
-            <Nav.Link href="#herramientas">Herramientas</Nav.Link>
-            <Nav.Link href="#reservas">Reservas</Nav.Link>
-            <Nav.Link href="#ventas">Ventas</Nav.Link>
-            <Nav.Link href="#sugerencias">Sugerencias</Nav.Link>
-            <Nav.Link href="#proveedores">Proveedores</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <nav className="navbar navbar-expand-lg navbar-white bg-danger">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">
+          <img src="/logo.ico" alt="Logo" width="65" height="65" />
+        </Link>
+        <Link className="navbar-brand text-white h1" to="/">CONSTRUMANTA P.</Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon" />
+        </button>
+        {!storage.get('authUser') ? (
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav mx-auto mb-2">
+              <li className='nav-item px-lg-5 h4'>
+                {storage.get('authUser').name}
+              </li>
+              <li className='nav-item px-lg-5'>
+                <Link to='/productos' className='nav-link text-white'>Productos</Link>
+              </li>
+            </ul>
+            <ul className='navbar-nav mx-auto mb-2'>
+              <li className='nav-item px-lg-5 h4'>
+                <button className='btn btn-warning' onClick={logout}>Logout</button>
+              </li>
+            </ul>
+          </div>
+        ) : ''}
+      </div>
+    </nav>
   )
 }
 
