@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { sendRequest } from '../functions.js'
+import { sendRequest } from '../functions.jsx'
 import DivInput from '../components/DivInput.jsx'
 import storage from '../storage/storage.jsx'
 
@@ -11,34 +11,41 @@ const Login = () => {
 
   const login = async (e) => {
     e.preventDefault()
-    const form = {cedula: cedula, password: password}
-    const res = await sendRequest('POST', form, '/login', '', false)
-    if (res.status === true){
-      storage.set('authToken', res.token)
-      storage.set('authUser', res.data)
+    const form = {cedula, password}
+    const res = await sendRequest('POST', form, '/usuarios/login', '', false)
+    if (res && res.status === 'SUCCESS' && res.data.token) {
+      storage.set('authToken', res.data.token)
+      storage.set('authUser', res.data.user)
       go('/')
     }
+  }
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <h1 className="text-center">Login</h1>
-          <form onSubmit={login}>
-            <DivInput type="text" name="cedula" label="Cedula" value={cedula} setValue={setCedula} />
-            <DivInput type="password" name="password" label="Password" value={password} setValue={setPassword} />
-            <button type="submit" className="btn btn-primary btn-block">Login</button>
-          </form>
-          <Link to="/register" className="text-center">Registrarse</Link>
+    <div className='container-fluid'>
+      <div className='row mt-5'>
+        <div className='col-md-4 offset-md-4'>
+          <div className='card border border-danger'>
+            <div className="card-header bg-danger border border-danger text-white">
+              Iniciar Sesión
+            </div>
+            <div className='card-body'>
+              <form onSubmit={login}>
+                <DivInput type='number' icon='fa-at' value={cedula} className='form-control' placeholder='Cédula' required='required' handleChange={(e)=> setCedula(e.target.value)}/>
+                <DivInput type='password' icon='fa-key' value={password} className='form-control' placeholder='Contraseña' required='required' handleChange={(e)=> setPassword(e.target.value)}/>
+                <div className='d-grid col-10 mx-auto'>
+                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
+                  <button className='btn btn-danger'>
+                    <i className='fa-solid fa-door-open'/> Iniciar
+                  </button>
+                </div>
+              </form>
+              <Link to='/register'>
+                <i className='fa-solid fa-user-plus'/>Registrarse
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <h1 className="text-center">Login</h1>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-6 offset-md-3"></div>
     </div>
   )
 }

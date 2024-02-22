@@ -1,17 +1,16 @@
 import Swal from 'sweetalert2'
 import storage from './storage/storage.jsx'
-import { axios } from 'axios'
-import { send } from 'vite'
+import axios from 'axios'
 
-export const showAlert = (text, icon) => {
+export const showAlert = (msg, icon) => {
   Swal.fire({
-    text: text,
+    title: msg,
     icon: icon,
     buttonsStyling: true
   })
 }
 
-export const sendRequest = async(method, params, url, dir='', token=true) => {
+export const sendRequest = async(method, params, url, redir='', token=true) => {
   if (token) {
     const authToken = storage.get('authToken')
     axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`
@@ -19,20 +18,29 @@ export const sendRequest = async(method, params, url, dir='', token=true) => {
   let res
   await axios({ method: method, url: url, data: params }).then(
     response => {
-      res = response.data
-      (method !== 'GET') ? showAlert(response.data.message, 'success') : ''
-      setTimeout( () => 
-        (redir !== '') ? window.location.href = redir : '', 2000
-      )
+      if (response?.data) {
+        res = response.data;
+        if (method !== 'GET') showAlert(response.data.message, 'success');
+        setTimeout(() => 
+          (redir !== '') ? window.location.href === redir : '', 2000
+        );
+      }
     }
   ).catch((errors) => {
-    let desc = '' 
-    res = errors.response.data 
-    errors.response.data.errors.map((e) => {
-      desc = `${desc} ${e}`
-      showAlert(desc, 'error')
-    })
+    let desc = '';
+    res = errors.data
+    if (errors.response?.data?.errors) {
+      errors.response.data.errors.map((e) => {
+        desc = `${desc} ${e}`;
+      });
+    } else if (errors.response?.data?.error) {
+      desc = errors.response.data.error;
+    } else {
+      desc = "Error desconocido";
+    }
+    showAlert(desc, 'error');
   })
+  
   return res
 }
 

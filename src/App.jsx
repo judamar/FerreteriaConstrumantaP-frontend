@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import NavbarComponent from './components/Nav.jsx'
@@ -14,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
-          <Route element={ProtectedRoutes}>
+          <Route element={<ProtectedRoutes/>}>
             <Route path="/" element={<h1>Home</h1>}/>
           </Route>
         </Routes>
