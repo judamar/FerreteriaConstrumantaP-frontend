@@ -4,6 +4,7 @@ import NavbarComponent from './components/Nav.jsx'
 import Login from './views/Login.jsx'
 import Register from './views/Register.jsx'
 import ProtectedRoutes from './components/ProtectedRoutes.jsx'
+import Products from './views/admin/Products.jsx'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/register" element={<Register/>}/>
           <Route element={<ProtectedRoutes/>}>
             <Route path="/" element={<h1>Home</h1>}/>
+            <Route path='/productos' element={<Products/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
