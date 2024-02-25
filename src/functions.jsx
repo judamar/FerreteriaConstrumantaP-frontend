@@ -13,7 +13,7 @@ export const showAlert = (msg, icon) => {
 export const sendRequest = async(method, params, url, redir='', token=true) => {
   if (token) {
     const authToken = storage.get('authToken')
-    axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`
+    axios.defaults.headers.common['Authorization'] = `${authToken}`
   }
   let res
   await axios({ method: method, url: url, data: params }).then(
