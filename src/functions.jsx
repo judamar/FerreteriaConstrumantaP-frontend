@@ -10,10 +10,13 @@ export const showAlert = (msg, icon) => {
   })
 }
 
-export const sendRequest = async(method, params, url, redir='', token=true) => {
+export const sendRequest = async(method, params, url, redir='', token=true, isFormData=false) => {
   if (token) {
     const authToken = storage.get('authToken')
     axios.defaults.headers.common['Authorization'] = `${authToken}`
+  }
+  if (isFormData) {
+    axios.defaults.headers.common['Content-Type'] = 'multipart/form-data'
   }
   let res
   await axios({ method: method, url: url, data: params }).then(

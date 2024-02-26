@@ -13,7 +13,7 @@ const Products = () => {
   const [productos, setProductos] = useState([])
   const [id, setId] = useState('')
   const [nombre_producto, setNombre_producto] = useState('')
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState(null)
   const [marca, setMarca] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [precio, setPrecio] = useState('')
@@ -34,6 +34,7 @@ const Products = () => {
 
   let method = ''
   let url = ''
+  let isFormData = false
 
   useEffect(()=>{
     getProducts()
@@ -56,10 +57,10 @@ const Products = () => {
     setSearchTerm(event.target.value)
   }
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-  };
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setImage(file)
+  }
 
   const deleteProduct = async (id) => {
     confirmation(id, `/productos/${id}`, '/productos')
@@ -79,13 +80,15 @@ const Products = () => {
     setCategorias(res.data)
   }
 
-  const openModal = (op, n, m, d, p, c, ca, pr) => {
+  const openModal = (op, pr, n, m, d, p, c, ca) => {
     clear()
     setTimeout( ()=> NameInput.current.focus(), 600)
     setOperation(op)
     setId(pr)
     if (op === 1) {
       setTitle('Agregar producto')
+    } else if (op === 2) {
+      setTitle('Actualizar imagen')
     } else {
       setTitle('Actualizar producto')
       setNombre_producto(n)
@@ -99,33 +102,50 @@ const Products = () => {
 
   const save = async (e) => {
     e.preventDefault()
+    const formData = new FormData()
+    let bodyform = {}
     if (operation === 1) {
       method = 'POST'
       url = '/productos'
-      } else {
-        method = 'PUT'
-        url = `/productos/${id}`
+      isFormData = true
+      formData.append('nombre_producto', nombre_producto)
+      formData.append('marca', marca)
+      formData.append('descripcion', descripcion)
+      formData.append('precio', precio)
+      formData.append('cantidad', cantidad)
+      formData.append('categorias_id', categoria_id)
+      formData.append('image', image, image.name)
+    } else if (operation === 2) {
+      method = 'PATCH'
+      url = `/productos/${id}`
+      isFormData = true
+      formData.append('image', image)
+    } else if (operation === 3){
+      method = 'PUT'
+      url = `/productos/${id}`
+      bodyform = {
+        nombre_producto: nombre_producto,
+        marca: marca,
+        descripcion: descripcion,
+        precio: precio,
+        cantidad: cantidad,
+        categorias_id: categoria_id
       }
-    const form = new FormData()
-    form.append('nombre_producto', nombre_producto)
-    form.append('marca', marca)
-    form.append('descripcion', descripcion)
-    form.append('precio', precio)
-    form.append('cantidad', cantidad)
-    form.append('categoria_id', categoria_id)
-    form.append('image', image)
-
-    console.log(form)
-    const res = await sendRequest(method, form, url, '')
-    if (method === 'PUT' && res.status === 'SUCCESS') {
+    }
+    let body = FormData
+    if (operation === 3) {
+      body = bodyform
+    }
+    const res = await sendRequest(method, body, url, '', true, isFormData)
+    if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
       close.current.click()
     }
     if (res.status === 'SUCCESS') {
       clear()
       getProducts()
-      setTimeout(()=> NameInput.current.focus(), 3000)
+      setTimeout(() => NameInput.current.focus(), 3000)
     }
-  } 
+  }
 
   return (
     <div className='container-fluid'>
@@ -139,7 +159,7 @@ const Products = () => {
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>PRODUCTO</th><th>CLAVE</th><th>MARCA</th><th>CATEGORIA</th><th>CANTIDAD</th><th>PRECIO/U</th><th>TOTAL</th><th></th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>PRODUCTO</th><th>CLAVE</th><th>MARCA</th><th>CATEGORIA</th><th>CANTIDAD</th><th>PRECIO/U</th><th>TOTAL</th><th></th><th></th></tr><th></th></thead>
           <tbody className='table-group-divider'>
             {productos.map((row, index)=>(
               <tr key={row.id}>
@@ -153,8 +173,14 @@ const Products = () => {
                 <td>{`$${row.precio * row.cantidad}`}</td>
                 <td>
                   {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProductos' onClick={()=> openModal(2, row.nombre_producto, row.marca, row.descripcion, row.precio, row.cantidad, row.categoria, row.id)}>
+                  <button className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProductosUpdate' onClick={()=> openModal(3, row.id, row.nombre_producto, row.marca, row.descripcion, row.precio, row.cantidad, row.categoria)}>
                     <i className='fa-solid fa-pen-to-square'/>
+                  </button>
+                </td>
+                <td>
+                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
+                  <button className='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalProductosImg' onClick={()=> openModal(2, row.id)}>
+                    <i className='fa-solid fa-image'/>
                   </button>
                 </td>
                 <td>
@@ -176,7 +202,50 @@ const Products = () => {
           <DivInput type='number' icon='fa-dollar-sign' value={precio} className='form-control' placeholder='Precio' required='required' handleChange={(e)=>setPrecio(e.target.value)}/>
           <DivInput type='number' icon='fa-box' value={cantidad} className='form-control' placeholder='Cantidad' required='required' handleChange={(e)=>setCantidad(e.target.value)}/>
           <DivSelect icon='fa-tag' value={categoria_id} required='required' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
-          <DivInput type='file' icon='fa-image' value={image} className='form-control' placeholder='Imagen' required='required' handleChange={(e)=>setImage(e.target.value)}/>
+          <form encType='multipart/form-data' className='input-group mb-3'>
+            <span className='input-group-text'>
+              <i className='fa-solid fa-image'/>
+            </span>
+            <input type="file" name="imagen" onChange={handleFileChange} required='required' className='form-control' placeholder='Imagen'/>
+          </form>
+          <div className='d-grid col-10 mx-auto'>
+            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
+            <button className='btn btn-success' onClick={save}>
+              <i className='fa-solid fa-save'/>Guardar
+            </button>
+          </div>
+        </div>
+        <div className='modal-footer'>
+          <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' ref={close}>Cerrar</button>
+        </div>
+      </Modal>
+      <Modal title={title} modal='modalProductosUpdate'>
+        <div className='modal-body'>
+          <DivInput type='text' icon='fa-hammer' value={nombre_producto} className='form-control' placeholder='Nombre Producto' required='required' ref={NameInput} handleChange={(e)=>setNombre_producto(e.target.value)}/>
+          <DivInput type='text' icon='fa-trademark' value={marca} className='form-control' placeholder='Marca' required='required' handleChange={(e)=>setMarca(e.target.value)}/>
+          <DivInput type='text' icon='fa-file-lines' value={descripcion} className='form-control' placeholder='Descripcion' required='required' handleChange={(e)=>setDescripcion(e.target.value)}/>
+          <DivInput type='number' icon='fa-dollar-sign' value={precio} className='form-control' placeholder='Precio' required='required' handleChange={(e)=>setPrecio(e.target.value)}/>
+          <DivInput type='number' icon='fa-box' value={cantidad} className='form-control' placeholder='Cantidad' required='required' handleChange={(e)=>setCantidad(e.target.value)}/>
+          <DivSelect icon='fa-tag' value={categoria_id} required='required' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
+          <div className='d-grid col-10 mx-auto'>
+            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
+            <button className='btn btn-success' onClick={save}>
+              <i className='fa-solid fa-save'/>Guardar
+            </button>
+          </div>
+        </div>
+        <div className='modal-footer'>
+          <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' ref={close}>Cerrar</button>
+        </div>
+      </Modal>
+      <Modal title={title} modal='modalProductosImg'>
+        <div className='modal-body'>
+          <form encType='multipart/form-data' className='input-group mb-3'>
+            <span className='input-group-text'>
+              <i className='fa-solid fa-image'/>
+            </span>
+            <input type="file" name="imagen" onChange={handleFileChange} required='required' className='form-control' placeholder='Imagen'/>
+          </form>
           <div className='d-grid col-10 mx-auto'>
             {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
             <button className='btn btn-success' onClick={save}>
