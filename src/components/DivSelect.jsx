@@ -15,6 +15,7 @@ export default forwardRef(({ options=[], sel, icon='user', name, id, value, clas
         <i className={`fa-solid ${icon}`}/>
       </span>
       <select name={name} id={id} value={value} className={className} href={input} required={required} onChange={(e) => handleChange(e)}>
+        <option value="">Seleccionar</option>
         { options.map((op) => (
           <option value={op.id} key={op.id}>
             {op[sel]}

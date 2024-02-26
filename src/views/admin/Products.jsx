@@ -34,6 +34,8 @@ const Products = () => {
 
   let method = ''
   let url = ''
+  let body = null
+  let bodyform = {}
   let isFormData = false
 
   useEffect(()=>{
@@ -103,7 +105,6 @@ const Products = () => {
   const save = async (e) => {
     e.preventDefault()
     const formData = new FormData()
-    let bodyform = {}
     if (operation === 1) {
       method = 'POST'
       url = '/productos'
@@ -114,7 +115,7 @@ const Products = () => {
       formData.append('precio', precio)
       formData.append('cantidad', cantidad)
       formData.append('categorias_id', categoria_id)
-      formData.append('image', image, image.name)
+      formData.append('image', image)
     } else if (operation === 2) {
       method = 'PATCH'
       url = `/productos/${id}`
@@ -132,9 +133,10 @@ const Products = () => {
         categorias_id: categoria_id
       }
     }
-    let body = FormData
     if (operation === 3) {
       body = bodyform
+    } else {
+      body = formData
     }
     const res = await sendRequest(method, body, url, '', true, isFormData)
     if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
@@ -157,9 +159,12 @@ const Products = () => {
           Añadir producto
         </button>
       </DivAdd>
+      <DivAdd>
+        
+      </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>PRODUCTO</th><th>CLAVE</th><th>MARCA</th><th>CATEGORIA</th><th>CANTIDAD</th><th>PRECIO/U</th><th>TOTAL</th><th></th><th></th></tr><th></th></thead>
+          <thead><tr><th>#</th><th>PRODUCTO</th><th>CLAVE</th><th>MARCA</th><th>CATEGORIA</th><th>CANTIDAD</th><th>PRECIO/U</th><th>TOTAL</th><th></th><th></th><th></th></tr></thead>
           <tbody className='table-group-divider'>
             {productos.map((row, index)=>(
               <tr key={row.id}>
