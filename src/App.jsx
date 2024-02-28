@@ -5,6 +5,7 @@ import Login from './views/Login.jsx'
 import Register from './views/Register.jsx'
 import ProtectedRoutes from './components/ProtectedRoutes.jsx'
 import Products from './views/admin/Products.jsx'
+import Tools from './views/admin/Tools.jsx'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route element={<ProtectedRoutes/>}>
             <Route path="/" element={<h1>Home</h1>}/>
             <Route path='/productos' element={<Products/>}/>
+            <Route path='/herramientas' element={<Tools/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
