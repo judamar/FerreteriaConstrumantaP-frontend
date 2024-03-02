@@ -1,5 +1,4 @@
 import React,{ useEffect, useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import DivAdd from '../../components/DivAdd.jsx'
 import DivTable from '../../components/DivTable.jsx'
 import DivSelect from '../../components/DivSelect.jsx'
@@ -7,7 +6,6 @@ import DivInput from '../../components/DivInput.jsx'
 import DivSearch from '../../components/DivSearch.jsx'
 import Modal from '../../components/Modal.jsx'
 import { confirmation, sendRequest } from '../../functions.jsx'
-import storage from '../../storage/storage.jsx'
 
 const Products = () => {
   const [productos, setProductos] = useState([])
