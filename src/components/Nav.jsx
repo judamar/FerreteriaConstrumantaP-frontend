@@ -26,6 +26,9 @@ const NavbarComponent = () => {
               {storage.get('authUser').nombre}
             </li>
             <li className='nav-item px-lg-5'>
+              <Link to='/usuarios' className='nav-link text-white'>Usuarios</Link> 
+            </li>
+            <li className='nav-item px-lg-5'>
               <Link to='/productos' className='nav-link text-white'>Productos</Link>
             </li>
             <li className='nav-item px-lg-5'>

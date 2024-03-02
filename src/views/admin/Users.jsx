@@ -1,26 +1,20 @@
 import React,{ useEffect, useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import DivAdd from '../../components/DivAdd.jsx'
 import DivTable from '../../components/DivTable.jsx'
-import DivSelect from '../../components/DivSelect.jsx'
 import DivInput from '../../components/DivInput.jsx'
 import DivSearch from '../../components/DivSearch.jsx'
 import Modal from '../../components/Modal.jsx'
 import { confirmation, sendRequest } from '../../functions.jsx'
-import storage from '../../storage/storage.jsx'
 
-const Products = () => {
-  const [productos, setProductos] = useState([])
+const Users = () => {
+  const [usuarios, setUsuarios] = useState([])
   const [id, setId] = useState('')
-  const [nombre_producto, setNombre_producto] = useState('')
-  const [image, setImage] = useState(null)
-  const [marca, setMarca] = useState('')
-  const [descripcion, setDescripcion] = useState('')
-  const [precio, setPrecio] = useState('')
-  const [cantidad, setCantidad] = useState('')
-  const [categoria_id, setCategoria_id] = useState('')
-
-  const [categorias, setCategorias] = useState([])
+  const [cedula, setCedula] = useState('')
+  const [nombre_completo, setNombre_completo] = useState('')
+  const [correo_electronico, setCorreo_electronico] = useState('')
+  const [telefono, setTelefono] = useState('')
+  const [direccion, setDireccion] = useState('')
+  const [password, setPassword] = useState('')
   
   const [operation, setOperation] = useState('')
   const [title, setTitle] = useState('')
@@ -29,168 +23,149 @@ const Products = () => {
 
   const [searchTerm, setSearchTerm] = useState('')
   
-  const NameInput = useRef()
+  const NameInput = useRef(null)
   const close = useRef()
 
   let method = ''
   let url = ''
-  let body = null
-  let bodyform = {}
-  let isFormData = false
+  let body = {}
 
   useEffect(()=>{
-    getProducts()
-    getCategory()
+    getUsers()
   },[])
 
-  const getProducts = async () => {
-    const apiUrl = searchTerm.trim() !== '' ? `/productos/search/${searchTerm.trim()}` : '/productos'
+  const getUsers = async () => {
+    const apiUrl = searchTerm.trim() !== '' ? `/usuarios/cedula/${searchTerm.trim()}` : '/usuarios'
     const res = await sendRequest('GET', '', apiUrl, '')
-    setProductos(res.data)
+    setUsuarios(res.data)
     setClassTable('')
   }
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    getProducts();
+    getUsers();
   }
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value)
   }
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setImage(file)
-  }
-
-  const deleteProduct = async (id) => {
-    confirmation(id, `/productos/${id}`, '/productos')
+  const deleteUser = async (name , id) => {
+    confirmation(name, `/usuarios/${id}`, '/usuarios')
   }
 
   const clear = () => {
-    setNombre_producto('')
-    setMarca('')
-    setDescripcion('')
-    setPrecio('')
-    setCantidad('')
-    setCategoria_id('')
+    setCedula('')
+    setNombre_completo('')
+    setCorreo_electronico('')
+    setTelefono('')
+    setDireccion('')
+    setPassword('')
   }
 
-  const getCategory = async () => {
-    const res = await sendRequest('GET', '', '/categorias', '')
-    setCategorias(res.data)
-  }
-
-  const openModal = (op, pr, n, m, d, p, c, ca) => {
+  const openModal = (op, u, c, nc, ce, t, d, p) => {
     clear()
-    setTimeout( ()=> NameInput.current.focus(), 600)
+    setTimeout( ()=> {if (NameInput.current) {
+      NameInput.current.focus()
+    }}, 600)
     setOperation(op)
-    setId(pr)
+    setId(u)
     if (op === 1) {
-      setTitle('Agregar producto')
+      setTitle('Registrar usuario')
     } else if (op === 2) {
-      setTitle('Actualizar imagen')
+      setTitle('Cambiar contraseña')
     } else {
-      setTitle('Actualizar producto')
-      setNombre_producto(n)
-      setMarca(m)
-      setDescripcion(d)
-      setPrecio(p)
-      setCantidad(c)
-      setCategoria_id(ca)
+      setTitle('Actualizar usuario')
+      setCedula(c)
+      setNombre_completo(nc)
+      setCorreo_electronico(ce)
+      setTelefono(t)
+      setDireccion(d)
+      setPassword(p)
     }
   }
 
   const save = async (e) => {
     e.preventDefault()
-    const formData = new FormData()
     if (operation === 1) {
       method = 'POST'
-      url = '/productos'
-      isFormData = true
-      formData.append('nombre_producto', nombre_producto)
-      formData.append('marca', marca)
-      formData.append('descripcion', descripcion)
-      formData.append('precio', precio)
-      formData.append('cantidad', cantidad)
-      formData.append('categorias_id', categoria_id)
-      formData.append('image', image)
+      url = '/usuarios/signup'
+      body = {
+        cedula: cedula,
+        nombre_completo: nombre_completo,
+        correo_electronico: correo_electronico,
+        telefono: telefono,
+        direccion: direccion,
+        password: password
+      }
     } else if (operation === 2) {
       method = 'PATCH'
-      url = `/productos/${id}`
-      isFormData = true
-      formData.append('image', image)
+      url = `/usuarios/${id}`
+      body = {
+        password: password
+      }
+      console.log(body)
     } else if (operation === 3){
       method = 'PUT'
-      url = `/productos/${id}`
-      bodyform = {
-        nombre_producto: nombre_producto,
-        marca: marca,
-        descripcion: descripcion,
-        precio: precio,
-        cantidad: cantidad,
-        categorias_id: categoria_id
+      url = `/usuarios/${id}`
+      body = {
+        cedula: cedula,
+        nombre_completo: nombre_completo,
+        correo_electronico: correo_electronico,
+        telefono: telefono,
+        direccion: direccion
       }
     }
-    if (operation === 3) {
-      body = bodyform
-    } else {
-      body = formData
-    }
-    const res = await sendRequest(method, body, url, '', true, isFormData)
+    const res = await sendRequest(method, body, url, '', true)
     if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
       close.current.click()
     }
     if (res.status === 'SUCCESS') {
       clear()
-      getProducts()
-      setTimeout(() => NameInput.current.focus(), 3000)
+      getUsers()
+      setTimeout( ()=> {if (NameInput.current) {
+        NameInput.current.focus()
+      }}, 3000)
     }
   }
 
   return (
     <div className='container-fluid'>
-      <DivSearch placeholder='Buscar productos' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
+      <DivSearch placeholder='Buscar usuario por cedula' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
         {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-        <button className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalProductos' onClick={()=> openModal(1)}>
+        <button className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalUsuarios' onClick={()=> openModal(1)}>
           <i className='fa-solid fa-circle-plus'/>
-          Añadir producto
+          Registrar usuario
         </button>
-      </DivAdd>
-      <DivAdd>
-        
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>PRODUCTO</th><th>CLAVE</th><th>MARCA</th><th>CATEGORIA</th><th>CANTIDAD</th><th>PRECIO/U</th><th>TOTAL</th><th></th><th></th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>CEDULA</th><th>NOMBRE</th><th>E-MAIL</th><th>TELEFONO</th><th>DIRECCION</th><th></th><th></th><th></th></tr></thead>
           <tbody className='table-group-divider'>
-            {productos.map((row, index)=>(
+            {usuarios.map((row, index)=>(
               <tr key={row.id}>
                 <td>{index+1}</td>
-                <td>{row.nombre_producto}</td>
-                <td>{row.clave_producto}</td>
-                <td>{row.marca}</td>
-                <td>{row.categoria}</td>
-                <td>{row.cantidad}</td>
-                <td>{`$${row.precio}`}</td>
-                <td>{`$${row.precio * row.cantidad}`}</td>
+                <td>{row.cedula}</td>
+                <td>{row.nombre_completo}</td>
+                <td>{row.correo_electronico}</td>
+                <td>{row.telefono}</td>
+                <td>{row.direccion}</td>
                 <td>
                   {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProductosUpdate' onClick={()=> openModal(3, row.id, row.nombre_producto, row.marca, row.descripcion, row.precio, row.cantidad, row.categoria)}>
+                  <button className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalUsuariosUpdate' onClick={()=> openModal(3, row.id, row.cedula, row.nombre_completo, row.correo_electronico, row.telefono, row.direccion)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
                 <td>
                   {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalProductosImg' onClick={()=> openModal(2, row.id)}>
-                    <i className='fa-solid fa-image'/>
+                  <button className='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalUpdatePassword' onClick={()=> openModal(2, row.id)}>
+                    <i className='fa-solid fa-key'/>
                   </button>
                 </td>
                 <td>
                   {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-danger' onClick={()=> deleteProduct(row.id)}>
+                  <button className='btn btn-danger' onClick={()=> deleteUser(row.nombre_completo, row.id)}>
                     <i className='fa-solid fa-trash'/>
                   </button>
                 </td>
@@ -199,20 +174,14 @@ const Products = () => {
           </tbody>
         </table>
       </DivTable>
-      <Modal title={title} modal='modalProductos'>
+      <Modal title={title} modal='modalUsuarios'>
         <div className='modal-body'>
-          <DivInput type='text' icon='fa-hammer' value={nombre_producto} className='form-control' placeholder='Nombre Producto' required='required' ref={NameInput} handleChange={(e)=>setNombre_producto(e.target.value)}/>
-          <DivInput type='text' icon='fa-trademark' value={marca} className='form-control' placeholder='Marca' required='required' handleChange={(e)=>setMarca(e.target.value)}/>
-          <DivInput type='text' icon='fa-file-lines' value={descripcion} className='form-control' placeholder='Descripcion' required='required' handleChange={(e)=>setDescripcion(e.target.value)}/>
-          <DivInput type='number' icon='fa-dollar-sign' value={precio} className='form-control' placeholder='Precio' required='required' handleChange={(e)=>setPrecio(e.target.value)}/>
-          <DivInput type='number' icon='fa-box' value={cantidad} className='form-control' placeholder='Cantidad' required='required' handleChange={(e)=>setCantidad(e.target.value)}/>
-          <DivSelect icon='fa-tag' value={categoria_id} required='required' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
-          <form encType='multipart/form-data' className='input-group mb-3'>
-            <span className='input-group-text'>
-              <i className='fa-solid fa-image'/>
-            </span>
-            <input type="file" name="imagen" onChange={handleFileChange} required='required' className='form-control' placeholder='Imagen'/>
-          </form>
+          <DivInput type='number' icon='fa-at' value={cedula} className='form-control' placeholder='Cédula' required='required' handleChange={(e)=> setCedula(e.target.value)}/>
+          <DivInput type='text' icon='fa-user' value={nombre_completo} className='form-control' placeholder='Nombre Completo' required='required' handleChange={(e)=> setNombre_completo(e.target.value)}/>
+          <DivInput type='email' icon='fa-envelope' value={correo_electronico} className='form-control' placeholder='Correo Electrónico' handleChange={(e)=> setCorreo_electronico(e.target.value)}/>
+          <DivInput type='text' icon='fa-phone' value={telefono} className='form-control' placeholder='Teléfono' required='required' handleChange={(e)=> setTelefono(e.target.value)}/>
+          <DivInput type='text' icon='fa-location-dot' value={direccion} className='form-control' placeholder='Dirección' handleChange={(e)=> setDireccion(e.target.value)}/>
+          <DivInput type='password' icon='fa-key' value={password} className='form-control' placeholder='Contraseña' required='required' handleChange={(e)=> setPassword(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
             {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
             <button className='btn btn-success' onClick={save}>
@@ -224,14 +193,13 @@ const Products = () => {
           <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' ref={close}>Cerrar</button>
         </div>
       </Modal>
-      <Modal title={title} modal='modalProductosUpdate'>
+      <Modal title={title} modal='modalUsuariosUpdate'>
         <div className='modal-body'>
-          <DivInput type='text' icon='fa-hammer' value={nombre_producto} className='form-control' placeholder='Nombre Producto' required='required' ref={NameInput} handleChange={(e)=>setNombre_producto(e.target.value)}/>
-          <DivInput type='text' icon='fa-trademark' value={marca} className='form-control' placeholder='Marca' required='required' handleChange={(e)=>setMarca(e.target.value)}/>
-          <DivInput type='text' icon='fa-file-lines' value={descripcion} className='form-control' placeholder='Descripcion' required='required' handleChange={(e)=>setDescripcion(e.target.value)}/>
-          <DivInput type='number' icon='fa-dollar-sign' value={precio} className='form-control' placeholder='Precio' required='required' handleChange={(e)=>setPrecio(e.target.value)}/>
-          <DivInput type='number' icon='fa-box' value={cantidad} className='form-control' placeholder='Cantidad' required='required' handleChange={(e)=>setCantidad(e.target.value)}/>
-          <DivSelect icon='fa-tag' value={categoria_id} required='required' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
+          <DivInput type='number' icon='fa-at' value={cedula} className='form-control' placeholder='Cédula' required='required' handleChange={(e)=> setCedula(e.target.value)}/>
+          <DivInput type='text' icon='fa-user' value={nombre_completo} className='form-control' placeholder='Nombre Completo' required='required' handleChange={(e)=> setNombre_completo(e.target.value)}/>
+          <DivInput type='email' icon='fa-envelope' value={correo_electronico} className='form-control' placeholder='Correo Electrónico' handleChange={(e)=> setCorreo_electronico(e.target.value)}/>
+          <DivInput type='text' icon='fa-phone' value={telefono} className='form-control' placeholder='Teléfono' required='required' handleChange={(e)=> setTelefono(e.target.value)}/>
+          <DivInput type='text' icon='fa-location-dot' value={direccion} className='form-control' placeholder='Dirección' handleChange={(e)=> setDireccion(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
             {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
             <button className='btn btn-success' onClick={save}>
@@ -243,14 +211,9 @@ const Products = () => {
           <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' ref={close}>Cerrar</button>
         </div>
       </Modal>
-      <Modal title={title} modal='modalProductosImg'>
+      <Modal title={title} modal='modalUpdatePassword'>
         <div className='modal-body'>
-          <form encType='multipart/form-data' className='input-group mb-3'>
-            <span className='input-group-text'>
-              <i className='fa-solid fa-image'/>
-            </span>
-            <input type="file" name="imagen" onChange={handleFileChange} required='required' className='form-control' placeholder='Imagen'/>
-          </form>
+          <DivInput type='password' icon='fa-key' value={password} className='form-control' placeholder='Nueva contraseña' required='required' handleChange={(e)=> setPassword(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
             {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
             <button className='btn btn-success' onClick={save}>
@@ -266,4 +229,4 @@ const Products = () => {
   )
 }
 
-export default Products
+export default Users

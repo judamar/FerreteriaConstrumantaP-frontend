@@ -24,9 +24,11 @@ export const sendRequest = async(method, params, url, redir='', token=true, isFo
       if (response?.data) {
         res = response.data;
         if (method !== 'GET') showAlert(response.data.message, 'success');
-        setTimeout(() => 
-          (redir !== '') ? window.location.href === redir : '', 2000
-        );
+        setTimeout(() => {
+          if (redir !== '') {
+              window.location.href = redir
+          }
+        }, 200)
       }
     }
   ).catch((errors) => {
@@ -47,7 +49,7 @@ export const sendRequest = async(method, params, url, redir='', token=true, isFo
   return res
 }
 
-export const confirmation = async(name, url, redir) => {
+export const confirmation = async (name, url, redir) => {
   const alert = Swal.mixin({buttonsStyling:true})
   alert.fire({
     title: `Estas seguro de eliminar ${name}`,

@@ -14,7 +14,7 @@ export default forwardRef(({ type='text', icon='user', placeholder='', name, id,
       <span className='input-group-text'>
         <i className={`fa-solid ${icon}`}/>
       </span>
-      <input type={type} placeholder={placeholder} name={name} id={id} value={value} className={className} href={input} required={required} onChange={(e) => handleChange(e)}/>
+      <input type={type} placeholder={placeholder} name={name} id={id} value={value || ''} className={className} href={input} required={required} onChange={(e) => handleChange(e)}/>
     </div>
   )
 })
