@@ -7,6 +7,7 @@ import ProtectedRoutes from './components/ProtectedRoutes.jsx'
 import Products from './views/admin/Products.jsx'
 import Tools from './views/admin/Tools.jsx'
 import Users from './views/admin/Users.jsx'
+import Providers from './views/admin/Providers.jsx'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path='/usuarios' element={<Users/>}/>
             <Route path='/productos' element={<Products/>}/>
             <Route path='/herramientas' element={<Tools/>}/>
+            <Route path='/proveedores' element={<Providers/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

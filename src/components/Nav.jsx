@@ -34,6 +34,9 @@ const NavbarComponent = () => {
             <li className='nav-item px-lg-5'>
               <Link to='/herramientas' className='nav-link text-white'>Herramientas</Link>
             </li>
+            <li className='nav-item px-lg-5'>
+              <Link to='/proveedores' className='nav-link text-white'>Proveedores</Link>
+            </li>
           </ul>
           <ul className='navbar-nav mx-auto mb-2'>
             <li className='nav-item px-lg-5 h4'>
