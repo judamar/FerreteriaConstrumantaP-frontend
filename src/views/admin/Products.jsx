@@ -82,7 +82,9 @@ const Products = () => {
 
   const openModal = (op, pr, n, m, d, p, c, ca) => {
     clear()
-    setTimeout( ()=> NameInput.current.focus(), 600)
+    setTimeout( ()=> {if (NameInput.current) {
+      NameInput.current.focus()
+    }}, 600)
     setOperation(op)
     setId(pr)
     if (op === 1) {
@@ -137,13 +139,16 @@ const Products = () => {
       body = formData
     }
     const res = await sendRequest(method, body, url, '', true, isFormData)
+    console.log(res)
     if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
       close.current.click()
     }
     if (res.status === 'SUCCESS') {
       clear()
       getProducts()
-      setTimeout(() => NameInput.current.focus(), 3000)
+      setTimeout( ()=> {if (NameInput.current) {
+        NameInput.current.focus()
+      }}, 3000)
     }
   }
 
