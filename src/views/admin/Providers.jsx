@@ -1,5 +1,6 @@
 import React,{ useEffect, useState, useRef } from 'react'
 import DivAdd from '../../components/DivAdd.jsx'
+import DivSelect from '../../components/DivSelect.jsx'
 import DivTable from '../../components/DivTable.jsx'
 import DivInput from '../../components/DivInput.jsx'
 import DivSearch from '../../components/DivSearch.jsx'
@@ -16,9 +17,11 @@ const Users = () => {
   const [correo_proveedor, setCorreo_proveedor] = useState('')
   const [telefono_vendedor, setTelefono_vendedor] = useState('')
 
-  const [categorias, setCategorias] = useState('')
+  const [categorias, setCategorias] = useState([])
+  const [categoria_id, setCategoria_id] = useState('')
   
   const [operation, setOperation] = useState('')
+  const [cOperation, setCOperation] = useState('')
   const [title, setTitle] = useState('')
   const [classLoad, setClassLoad] = useState('')
   const [classTable, setClassTable] = useState('d-none')
@@ -34,6 +37,7 @@ const Users = () => {
 
   useEffect(()=>{
     getProviders()
+    getCategories()
   },[])
 
   const getProviders = async () => {
@@ -41,6 +45,11 @@ const Users = () => {
     const res = await sendRequest('GET', '', apiUrl, '')
     setProveedores(res.data)
     setClassTable('')
+  }
+
+  const getCategories = async () => {
+    const res = await sendRequest('GET', '', '/categorias', '')
+    setCategorias(res.data)
   }
 
   const handleSearchSubmit = (event) => {
@@ -52,8 +61,12 @@ const Users = () => {
     setSearchTerm(event.target.value)
   }
 
-  const deleteProvider = async (name , id) => {
+  const deleteProvider = async (name, id) => {
     confirmation(name, `/proveedores/${id}`, '/proveedores')
+  }
+
+  const deleteCategories = async (name, id) => {
+    confirmation(name, `/proveedores_tienen_categorias/${id}`, '/proveedores')
   }
 
   const clear = () => {
@@ -63,9 +76,10 @@ const Users = () => {
     setTelefono_proveedor('')
     setCorreo_proveedor('')
     setTelefono_vendedor('')
+    setCategoria_id('')
   }
 
-  const openModal = (op, pr, n, np, dp, tp, c, tv) => {
+  const openModal = (op, pr, n, np, dp, tp, c, tv, ca) => {
     clear()
     setTimeout( ()=> {if (NameInput.current) {
       NameInput.current.focus()
@@ -74,7 +88,7 @@ const Users = () => {
     setId(pr)
     if (op === 1) {
       setTitle('Registrar proveedor')
-    } else {
+    } else if (op === 2) {
       setTitle('Actualizar proveedor')
       setNIT(n)
       setNombre_proveedor(np)
@@ -82,6 +96,9 @@ const Users = () => {
       setTelefono_proveedor(tp)
       setCorreo_proveedor(c)
       setTelefono_vendedor(tv)
+    } else {
+      setTitle('Categorias del proveedor')
+      setCategoria_id(ca)
     }
   }
 
@@ -98,9 +115,16 @@ const Users = () => {
     if (operation === 1) {
       method = 'POST'
       url = '/proveedores/'
-    } else {
+    } else if (operation === 2) {
       method = 'PUT'
       url = `/proveedores/${id}`
+    } else {
+      method = 'POST'
+      url = '/proveedores_tienen_categorias/'
+      body = {
+        proveedores_id: id,
+        categorias_id: categoria_id
+      }
     }
     const res = await sendRequest(method, body, url, '', true)
     if (method === 'PUT' && res.status === 'SUCCESS') {
@@ -127,7 +151,7 @@ const Users = () => {
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>NIT</th><th>NOMBRE</th><th>E-MAIL</th><th>DIRECCION</th><th>TEL. PROVEEDOR</th><th>TEL. VENDEDOR.</th><th></th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>NIT</th><th>NOMBRE</th><th>E-MAIL</th><th>DIRECCION</th><th>TEL. PROVEEDOR</th><th>TEL. VENDEDOR.</th><th>CATEGORIAS</th><th></th><th></th><th></th></tr></thead>
           <tbody className='table-group-divider'>
             {proveedores.map((row, index)=>(
               <tr key={row.proveedor_id}>
@@ -138,10 +162,17 @@ const Users = () => {
                 <td>{row.direccion_proveedor}</td>
                 <td>{row.telefono_proveedor}</td>
                 <td>{row.telefono_vendedor}</td>
+                <td>{row.categorias}</td>
                 <td>
                   {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
                   <button className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProveedores' onClick={()=> openModal(2, row.proveedor_id, row.NIT, row.nombre_proveedor, row.direccion_proveedor, row.telefono_proveedor, row.correo_proveedor, row.telefono_vendedor)}>
                     <i className='fa-solid fa-pen-to-square'/>
+                  </button>
+                </td>
+                <td>
+                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
+                  <button className='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalProveedorCategoria' onClick={()=> openModal(3, row.proveedor_id)}>
+                    <i className='fa-solid fa-tag'/>
                   </button>
                 </td>
                 <td>
@@ -162,11 +193,30 @@ const Users = () => {
           <DivInput type='email' icon='fa-envelope' value={correo_proveedor} className='form-control' placeholder='Correo Electrónico' required='required' handleChange={(e)=> setCorreo_proveedor(e.target.value)}/>
           <DivInput type='text' icon='fa-location-dot' value={direccion_proveedor} className='form-control' placeholder='Dirección' required='required' handleChange={(e)=> setDireccion_proveedor(e.target.value)}/>
           <DivInput type='number' icon='fa-phone' value={telefono_proveedor} className='form-control' placeholder='Teléfono proveedor' required='required' handleChange={(e)=> setTelefono_proveedor(e.target.value)}/>
-          <DivInput type='number' icon='fa-phone' value={telefono_vendedor} className='form-control' placeholder='Teléfono proveedor' required='required' handleChange={(e)=> setTelefono_vendedor(e.target.value)}/>
+          <DivInput type='number' icon='fa-phone' value={telefono_vendedor} className='form-control' placeholder='Teléfono vendedor' required='required' handleChange={(e)=> setTelefono_vendedor(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
             {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
             <button className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
+            </button>
+          </div>
+        </div>
+        <div className='modal-footer'>
+          <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' ref={close}>Cerrar</button>
+        </div>
+      </Modal>
+      <Modal title={title} modal='modalProveedorCategoria'>
+        <div className='modal-body'>
+          <DivSelect icon='fa-tag' value={categoria_id} required='required' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
+          <div className='d-grid col-10 mx-auto'>
+            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
+            <button className='btn btn-success' onClick={save}>
+              <i className='fa-solid fa-save'/>Añadir
+            </button>
+            <br/>
+            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
+            <button className='btn btn-danger' onClick={()=> deleteCategories('Categorias', id)}>
+              <i className='fa-solid fa-trash'/>Eliminar categorias
             </button>
           </div>
         </div>
