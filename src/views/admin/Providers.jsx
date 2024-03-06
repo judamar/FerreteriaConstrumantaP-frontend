@@ -21,7 +21,6 @@ const Users = () => {
   const [categoria_id, setCategoria_id] = useState('')
   
   const [operation, setOperation] = useState('')
-  const [cOperation, setCOperation] = useState('')
   const [title, setTitle] = useState('')
   const [classLoad, setClassLoad] = useState('')
   const [classTable, setClassTable] = useState('d-none')
