@@ -12,7 +12,7 @@ const NavbarComponent = () => {
     <nav className="navbar navbar-expand-lg navbar-white bg-danger">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          <img src="/logo.ico" alt="Logo" width="65" height="65" />
+          <img src="/logo.ico" alt="Logo" width="75" height="75" />
         </Link>
         <Link className="navbar-brand text-white h1" to="/">CONSTRUMANTA P.</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,14 +25,22 @@ const NavbarComponent = () => {
             <li className='nav-item px-lg-5 h4'>
               {storage.get('authUser').nombre}
             </li>
+            <li className="nav-item dropdown">
+              {/* rome-ignore lint/a11y/useValidAnchor: <explanation> */}
+              <a className="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Inventarios
+              </a>
+              <ul className="dropdown-menu">
+                <li className='px-lg-3'>
+                  <Link to='/productos' className='dropdown-item'>Productos</Link>
+                </li>
+                <li className='px-lg-3'>
+                  <Link to='/herramientas' className='dropdown-item'>Herramientas</Link>
+                </li>
+              </ul>
+            </li>
             <li className='nav-item px-lg-5'>
               <Link to='/usuarios' className='nav-link text-white'>Usuarios</Link> 
-            </li>
-            <li className='nav-item px-lg-5'>
-              <Link to='/productos' className='nav-link text-white'>Productos</Link>
-            </li>
-            <li className='nav-item px-lg-5'>
-              <Link to='/herramientas' className='nav-link text-white'>Herramientas</Link>
             </li>
             <li className='nav-item px-lg-5'>
               <Link to='/proveedores' className='nav-link text-white'>Proveedores</Link>
@@ -43,13 +51,11 @@ const NavbarComponent = () => {
           </ul>
           <ul className='navbar-nav mx-auto mb-2'>
             <li className='nav-item px-lg-5 h4'>
-              {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-              <button className='btn btn-warning' onClick={logout}>Salir</button>
+              <button type='button' className='btn btn-warning' onClick={logout}>Salir</button>
             </li>
           </ul>
         </div>
         ) : ''}
-
     </nav>
   )
 }
