@@ -155,6 +155,7 @@ const Products = () => {
 
   return (
     <div className='container-fluid'>
+      <h1 className='text-center' >HERRAMIENTAS</h1>
       <DivSearch placeholder='Buscar herramientas' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
         {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
@@ -168,7 +169,7 @@ const Products = () => {
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>HERRAMIENTA</th><th>PRECIO/DIA</th><th>CANTIDAD</th><th>ESTADO</th><th></th><th></th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>HERRAMIENTA</th><th>PRECIO/DIA</th><th>CANTIDAD</th><th>ESTADO</th><th /><th /><th /></tr><tr/></thead>
           <tbody className='table-group-divider'>
             {herramientas.map((row, index)=>(
               <tr key={row.id}>
@@ -178,26 +179,22 @@ const Products = () => {
                 <td>{row.cantidad_disponible}</td>
                 <td>{row.estado}</td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalHerramientasUpdate' onClick={()=> openModal(3, row.id, row.nombre_articulo, row.descripcion, row.precio_alquiler, row.cantidad_disponible)}>
+                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalHerramientasUpdate' onClick={()=> openModal(3, row.id, row.nombre_articulo, row.descripcion, row.precio_alquiler, row.cantidad_disponible)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalHerramientasImg' onClick={()=> openModal(2, row.id)}>
+                  <button type='button' className='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalHerramientasImg' onClick={()=> openModal(2, row.id)}>
                     <i className='fa-solid fa-image'/>
                   </button>
                 </td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalHerramientasState' onClick={()=> openModal(4, row.id)}>
+                  <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalHerramientasState' onClick={()=> openModal(4, row.id)}>
                     <i className='fa-solid fa-tag'/>
                   </button>
                 </td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-danger' onClick={()=> deleteProduct(row.id)}>
+                  <button type='button' className='btn btn-danger' onClick={()=> deleteProduct(row.id)}>
                     <i className='fa-solid fa-trash'/>
                   </button>
                 </td>
@@ -237,8 +234,7 @@ const Products = () => {
           <DivInput type='number' icon='fa-dollar-sign' value={precio_alquiler} className='form-control' placeholder='Precio alquiler en dias' required='required' handleChange={(e)=>setPrecio_alquiler(e.target.value)}/>
           <DivInput type='number' icon='fa-box' value={cantidad_disponible} className='form-control' placeholder='Cantidad disponible' required='required' handleChange={(e)=>setCantidad(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>
@@ -256,8 +252,7 @@ const Products = () => {
             <input type="file" name="imagen" onChange={handleFileChange} required='required' className='form-control' placeholder='Imagen'/>
           </form>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>
@@ -270,8 +265,7 @@ const Products = () => {
         <div className='modal-body'>
           <DivSelect icon='fa-tag' value={estados_id} required='required' className='form-select' options={estados} sel='estado' handleChange={(e)=>setEstados_id(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>

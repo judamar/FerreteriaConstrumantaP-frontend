@@ -131,17 +131,17 @@ const Users = () => {
 
   return (
     <div className='container-fluid'>
+      <h1 className='text-center' >USUARIOS</h1>
       <DivSearch placeholder='Buscar usuario por cedula' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
-        {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-        <button className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalUsuarios' onClick={()=> openModal(1)}>
+        <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalUsuarios' onClick={()=> openModal(1)}>
           <i className='fa-solid fa-circle-plus'/>
           Registrar usuario
         </button>
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>CEDULA</th><th>NOMBRE</th><th>E-MAIL</th><th>TELEFONO</th><th>DIRECCION</th><th></th><th></th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>CEDULA</th><th>NOMBRE</th><th>E-MAIL</th><th>TELEFONO</th><th>DIRECCION</th><th /><th /><th /></tr></thead>
           <tbody className='table-group-divider'>
             {usuarios.map((row, index)=>(
               <tr key={row.id}>
@@ -152,20 +152,17 @@ const Users = () => {
                 <td>{row.telefono}</td>
                 <td>{row.direccion}</td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalUsuariosUpdate' onClick={()=> openModal(3, row.id, row.cedula, row.nombre_completo, row.correo_electronico, row.telefono, row.direccion)}>
+                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalUsuariosUpdate' onClick={()=> openModal(3, row.id, row.cedula, row.nombre_completo, row.correo_electronico, row.telefono, row.direccion)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalUpdatePassword' onClick={()=> openModal(2, row.id)}>
+                  <button type='button' className='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalUpdatePassword' onClick={()=> openModal(2, row.id)}>
                     <i className='fa-solid fa-key'/>
                   </button>
                 </td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-danger' onClick={()=> deleteUser(row.nombre_completo, row.id)}>
+                  <button type='button' className='btn btn-danger' onClick={()=> deleteUser(row.nombre_completo, row.id)}>
                     <i className='fa-solid fa-trash'/>
                   </button>
                 </td>
@@ -183,8 +180,7 @@ const Users = () => {
           <DivInput type='text' icon='fa-location-dot' value={direccion} className='form-control' placeholder='Dirección' handleChange={(e)=> setDireccion(e.target.value)}/>
           <DivInput type='password' icon='fa-key' value={password} className='form-control' placeholder='Contraseña' required='required' handleChange={(e)=> setPassword(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>
@@ -201,8 +197,7 @@ const Users = () => {
           <DivInput type='text' icon='fa-phone' value={telefono} className='form-control' placeholder='Teléfono' required='required' handleChange={(e)=> setTelefono(e.target.value)}/>
           <DivInput type='text' icon='fa-location-dot' value={direccion} className='form-control' placeholder='Dirección' handleChange={(e)=> setDireccion(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>
@@ -215,8 +210,7 @@ const Users = () => {
         <div className='modal-body'>
           <DivInput type='password' icon='fa-key' value={password} className='form-control' placeholder='Nueva contraseña' required='required' handleChange={(e)=> setPassword(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>

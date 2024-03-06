@@ -143,8 +143,7 @@ const Users = () => {
       <h1 className='text-center' >PROVEEDORES</h1>
       <DivSearch placeholder='Buscar proveedor' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
-        {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-        <button className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalProveedores' onClick={()=> openModal(1)}>
+        <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalProveedores' onClick={()=> openModal(1)}>
           <i className='fa-solid fa-circle-plus'/>
           Registrar Proveedor
         </button>
