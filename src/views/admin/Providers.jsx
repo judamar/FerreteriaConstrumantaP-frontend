@@ -141,6 +141,7 @@ const Users = () => {
 
   return (
     <div className='container-fluid'>
+      <h1 className='text-center' >PROVEEDORES</h1>
       <DivSearch placeholder='Buscar proveedor' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
         {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
@@ -151,7 +152,7 @@ const Users = () => {
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>NIT</th><th>NOMBRE</th><th>E-MAIL</th><th>DIRECCION</th><th>TEL. PROVEEDOR</th><th>TEL. VENDEDOR.</th><th>CATEGORIAS</th><th></th><th></th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>NIT</th><th>NOMBRE</th><th>E-MAIL</th><th>DIRECCION</th><th>TEL. PROVEEDOR</th><th>TEL. VENDEDOR.</th><th>CATEGORIAS</th><th /><th /><th /></tr></thead>
           <tbody className='table-group-divider'>
             {proveedores.map((row, index)=>(
               <tr key={row.proveedor_id}>
@@ -164,20 +165,17 @@ const Users = () => {
                 <td>{row.telefono_vendedor}</td>
                 <td>{row.categorias}</td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProveedores' onClick={()=> openModal(2, row.proveedor_id, row.NIT, row.nombre_proveedor, row.direccion_proveedor, row.telefono_proveedor, row.correo_proveedor, row.telefono_vendedor)}>
+                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProveedores' onClick={()=> openModal(2, row.proveedor_id, row.NIT, row.nombre_proveedor, row.direccion_proveedor, row.telefono_proveedor, row.correo_proveedor, row.telefono_vendedor)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalProveedorCategoria' onClick={()=> openModal(3, row.proveedor_id)}>
+                  <button type='button' className='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalProveedorCategoria' onClick={()=> openModal(3, row.proveedor_id)}>
                     <i className='fa-solid fa-tag'/>
                   </button>
                 </td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-danger' onClick={()=> deleteProvider(row.nombre_proveedor, row.proveedor_id)}>
+                  <button type='button' className='btn btn-danger' onClick={()=> deleteProvider(row.nombre_proveedor, row.proveedor_id)}>
                     <i className='fa-solid fa-trash'/>
                   </button>
                 </td>
@@ -195,8 +193,7 @@ const Users = () => {
           <DivInput type='number' icon='fa-phone' value={telefono_proveedor} className='form-control' placeholder='Teléfono proveedor' required='required' handleChange={(e)=> setTelefono_proveedor(e.target.value)}/>
           <DivInput type='number' icon='fa-phone' value={telefono_vendedor} className='form-control' placeholder='Teléfono vendedor' required='required' handleChange={(e)=> setTelefono_vendedor(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>
@@ -209,13 +206,11 @@ const Users = () => {
         <div className='modal-body'>
           <DivSelect icon='fa-tag' value={categoria_id} required='required' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Añadir
             </button>
             <br/>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-danger' onClick={()=> deleteCategories('Categorias', id)}>
+            <button type='button' className='btn btn-danger' onClick={()=> deleteCategories('Categorias', id)}>
               <i className='fa-solid fa-trash'/>Eliminar categorias
             </button>
           </div>
