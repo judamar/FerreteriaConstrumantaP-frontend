@@ -139,7 +139,6 @@ const Products = () => {
       body = formData
     }
     const res = await sendRequest(method, body, url, '', true, isFormData)
-    console.log(res)
     if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
       close.current.click()
     }
@@ -154,10 +153,10 @@ const Products = () => {
 
   return (
     <div className='container-fluid'>
+      <h1 className='text-center' >PRODUCTOS</h1>
       <DivSearch placeholder='Buscar productos' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
-        {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-        <button className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalProductos' onClick={()=> openModal(1)}>
+        <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalProductos' onClick={()=> openModal(1)}>
           <i className='fa-solid fa-circle-plus'/>
           Añadir producto
         </button>
@@ -167,7 +166,7 @@ const Products = () => {
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>PRODUCTO</th><th>CLAVE</th><th>MARCA</th><th>CATEGORIA</th><th>CANTIDAD</th><th>PRECIO/U</th><th>TOTAL</th><th></th><th></th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>PRODUCTO</th><th>CLAVE</th><th>MARCA</th><th>CATEGORIA</th><th>CANTIDAD</th><th>PRECIO/U</th><th>TOTAL</th><th /><th /><th /></tr></thead>
           <tbody className='table-group-divider'>
             {productos.map((row, index)=>(
               <tr key={row.id}>
@@ -180,20 +179,17 @@ const Products = () => {
                 <td>{`$${row.precio}`}</td>
                 <td>{`$${row.precio * row.cantidad}`}</td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProductosUpdate' onClick={()=> openModal(3, row.id, row.nombre_producto, row.marca, row.descripcion, row.precio, row.cantidad, row.categoria)}>
+                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProductosUpdate' onClick={()=> openModal(3, row.id, row.nombre_producto, row.marca, row.descripcion, row.precio, row.cantidad, row.categoria)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalProductosImg' onClick={()=> openModal(2, row.id)}>
+                  <button type='button' className='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalProductosImg' onClick={()=> openModal(2, row.id)}>
                     <i className='fa-solid fa-image'/>
                   </button>
                 </td>
                 <td>
-                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-                  <button className='btn btn-danger' onClick={()=> deleteProduct(row.id)}>
+                  <button type='button' className='btn btn-danger' onClick={()=> deleteProduct(row.id)}>
                     <i className='fa-solid fa-trash'/>
                   </button>
                 </td>
@@ -217,8 +213,7 @@ const Products = () => {
             <input type="file" name="imagen" onChange={handleFileChange} required='required' className='form-control' placeholder='Imagen'/>
           </form>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>
@@ -255,8 +250,7 @@ const Products = () => {
             <input type="file" name="imagen" onChange={handleFileChange} required='required' className='form-control' placeholder='Imagen'/>
           </form>
           <div className='d-grid col-10 mx-auto'>
-            {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button className='btn btn-success' onClick={save}>
+            <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>
