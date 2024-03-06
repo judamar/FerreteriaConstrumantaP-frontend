@@ -35,6 +35,9 @@ const NavbarComponent = () => {
                   <Link to='/productos' className='dropdown-item'>Productos</Link>
                 </li>
                 <li className='px-lg-3'>
+                  <Link to='/categorias' className='dropdown-item'>Categorias</Link>
+                </li>
+                <li className='px-lg-3'>
                   <Link to='/herramientas' className='dropdown-item'>Herramientas</Link>
                 </li>
               </ul>

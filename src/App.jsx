@@ -5,6 +5,7 @@ import Login from './views/Login.jsx'
 import Register from './views/Register.jsx'
 import ProtectedRoutes from './components/ProtectedRoutes.jsx'
 import Products from './views/admin/Products.jsx'
+import Categories from './views/admin/Categories.jsx'
 import Tools from './views/admin/Tools.jsx'
 import Users from './views/admin/Users.jsx'
 import Providers from './views/admin/Providers.jsx'
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<h1>Home</h1>}/>
             <Route path='/usuarios' element={<Users/>}/>
             <Route path='/productos' element={<Products/>}/>
+            <Route path='/categorias' element={<Categories/>}/>
             <Route path='/herramientas' element={<Tools/>}/>
             <Route path='/proveedores' element={<Providers/>}/>
             <Route path='/sugerencias' element={<Sugerencias/>}/>
