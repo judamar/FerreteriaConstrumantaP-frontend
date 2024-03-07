@@ -7,6 +7,7 @@ import ProtectedRoutes from './components/ProtectedRoutes.jsx'
 import Products from './views/admin/Products.jsx'
 import Categories from './views/admin/Categories.jsx'
 import Tools from './views/admin/Tools.jsx'
+import SalesStatuses from './views/admin/SalesStatuses.jsx'
 import Users from './views/admin/Users.jsx'
 import Providers from './views/admin/Providers.jsx'
 import Sugerencias from './views/admin/Suggestions.jsx'
@@ -27,6 +28,7 @@ function App() {
             <Route path='/categorias' element={<Categories/>}/>
             <Route path='/herramientas' element={<Tools/>}/>
             <Route path='/estados_herramientas' element={<ToolsStatuses/>}/>
+            <Route path='/estados_ventas' element={<SalesStatuses/>}/>
             <Route path='/proveedores' element={<Providers/>}/>
             <Route path='/sugerencias' element={<Sugerencias/>}/>
           </Route>

@@ -45,6 +45,17 @@ const NavbarComponent = () => {
                 </li>
               </ul>
             </li>
+            <li className="nav-item dropdown">
+              {/* rome-ignore lint/a11y/useValidAnchor: <explanation> */}
+              <a className="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Ventas
+              </a>
+              <ul className="dropdown-menu">
+                <li className='px-lg-3'>
+                  <Link to='/estados_ventas' className='dropdown-item'>Estados ventas</Link>
+                </li>
+              </ul>
+            </li>
             <li className='nav-item px-lg-5'>
               <Link to='/usuarios' className='nav-link text-white'>Usuarios</Link> 
             </li>
