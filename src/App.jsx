@@ -10,6 +10,7 @@ import Tools from './views/admin/Tools.jsx'
 import Users from './views/admin/Users.jsx'
 import Providers from './views/admin/Providers.jsx'
 import Sugerencias from './views/admin/Suggestions.jsx'
+import ToolsStatuses from './views/admin/ToolsStatuses.jsx'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path='/productos' element={<Products/>}/>
             <Route path='/categorias' element={<Categories/>}/>
             <Route path='/herramientas' element={<Tools/>}/>
+            <Route path='/estados_herramientas' element={<ToolsStatuses/>}/>
             <Route path='/proveedores' element={<Providers/>}/>
             <Route path='/sugerencias' element={<Sugerencias/>}/>
           </Route>

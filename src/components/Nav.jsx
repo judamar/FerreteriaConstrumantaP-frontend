@@ -40,6 +40,9 @@ const NavbarComponent = () => {
                 <li className='px-lg-3'>
                   <Link to='/herramientas' className='dropdown-item'>Herramientas</Link>
                 </li>
+                <li className='px-lg-3'>
+                  <Link to='/estados_herramientas' className='dropdown-item'>Estados Herramientas</Link>
+                </li>
               </ul>
             </li>
             <li className='nav-item px-lg-5'>

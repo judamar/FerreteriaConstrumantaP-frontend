@@ -30,30 +30,21 @@ const ToolsStatuses = () => {
   },[])
 
   const getStatuses = async () => {
-    const apiUrl = searchTerm.trim() !== '' ? `/estados_herramientas_maquinas/search/${searchTerm.trim()}` : '/categorias'
+    const apiUrl = '/estados_herramienta_maquina'
     const res = await sendRequest('GET', '', apiUrl, '')
     setEstados(res.data)
     setClassTable('')
   }
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    getStatuses();
-  }
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value)
-  }
-
-  const deleteCategory = async (name , id) => {
-    confirmation(name, `/categorias/${id}`, '/categorias')
+  const deleteStatus = async (name , id) => {
+    confirmation(name, `/estados_herramienta_maquina/${id}`, '/estados_herramientas')
   }
 
   const clear = () => {
     setEstado('')
   }
 
-  const openModal = (op, id, c) => {
+  const openModal = (op, id, e) => {
     clear()
     setTimeout( ()=> {if (NameInput.current) {
       NameInput.current.focus()
@@ -61,24 +52,24 @@ const ToolsStatuses = () => {
     setOperation(op)
     setId(id)
     if (op === 1) {
-      setTitle('Añadir categoría')
+      setTitle('Añadir Estado')
     } else {
-      setTitle('Actualizar categoría')
-      setEstado(c)
+      setTitle('Actualizar Estado')
+      setEstado(e)
     }
   }
 
   const save = async (e) => {
     body = {
-      categoria: estado
+      estado: estado
     }
     e.preventDefault()
     if (operation === 1) {
       method = 'POST'
-      url = '/categorias'
+      url = '/estados_herramienta_maquina'
     } else {
       method = 'PUT'
-      url = `/categorias/${id}`
+      url = `/estados_herramienta_maquina/${id}`
     }
     const res = await sendRequest(method, body, url, '', true)
     if (method === 'PUT' && res.status === 'SUCCESS') {
@@ -95,29 +86,28 @@ const ToolsStatuses = () => {
 
   return (
     <div className='container-fluid'>
-      <h1 className='text-center' >CATEGORIAS</h1>
-      <DivSearch placeholder='Buscar categorias' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
+      <h1 className='text-center' >ESTADOS DE HERRAMIENTAS</h1>
       <DivAdd>
-        <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalCategorias' onClick={()=> openModal(1)}>
+        <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalEstados' onClick={()=> openModal(1)}>
           <i className='fa-solid fa-circle-plus'/>
-          Añadir categoría
+          Añadir estado
         </button>
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>CATEGORÍA</th><th /><th /></tr></thead>
+          <thead><tr><th>#</th><th>ESTADO</th><th /><th /></tr></thead>
           <tbody className='table-group-divider'>
             {estados.map((row, index)=>(
               <tr key={row.id}>
                 <td>{index+1}</td>
-                <td>{row.categoria}</td>
+                <td>{row.estado}</td>
                 <td>
-                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalCategorias' onClick={()=> openModal(2, row.id, row.categoria)}>
+                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalEstados' onClick={()=> openModal(2, row.id, row.estado)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
                 <td>
-                  <button type='button' className='btn btn-danger' onClick={()=> deleteCategory(row.categoria, row.id)}>
+                  <button type='button' className='btn btn-danger' onClick={()=> deleteStatus(row.estado, row.id)}>
                     <i className='fa-solid fa-trash'/>
                   </button>
                 </td>
@@ -126,9 +116,9 @@ const ToolsStatuses = () => {
           </tbody>
         </table>
       </DivTable>
-      <Modal title={title} modal='modalCategorias'>
+      <Modal title={title} modal='modalEstados'>
         <div className='modal-body'>
-          <DivInput type='text' icon='fa-tag' value={estado} className='form-control' placeholder='Categoría' required='required' handleChange={(e)=> setEstado(e.target.value)}/>
+          <DivInput type='text' icon='fa-tag' value={estado} className='form-control' placeholder='Estado' required='required' handleChange={(e)=> setEstado(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
             <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
