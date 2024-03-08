@@ -54,6 +54,9 @@ const NavbarComponent = () => {
                 <li className='px-lg-3'>
                   <Link to='/estados_ventas' className='dropdown-item'>Estados ventas</Link>
                 </li>
+                <li className='px-lg-3'>
+                  <Link to='/estados_reservas' className='dropdown-item'>Estados reservas</Link>
+                </li>
               </ul>
             </li>
             <li className='nav-item px-lg-5'>

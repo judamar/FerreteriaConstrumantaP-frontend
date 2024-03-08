@@ -12,6 +12,7 @@ import Users from './views/admin/Users.jsx'
 import Providers from './views/admin/Providers.jsx'
 import Sugerencias from './views/admin/Suggestions.jsx'
 import ToolsStatuses from './views/admin/ToolsStatuses.jsx'
+import ReservationStatuses from './views/admin/ReservationStatuses.jsx'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path='/categorias' element={<Categories/>}/>
             <Route path='/herramientas' element={<Tools/>}/>
             <Route path='/estados_herramientas' element={<ToolsStatuses/>}/>
+            <Route path='/estados_reservas' element={<ReservationStatuses/>}/>
             <Route path='/estados_ventas' element={<SalesStatuses/>}/>
             <Route path='/proveedores' element={<Providers/>}/>
             <Route path='/sugerencias' element={<Sugerencias/>}/>
