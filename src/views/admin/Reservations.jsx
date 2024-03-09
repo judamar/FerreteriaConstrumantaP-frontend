@@ -10,7 +10,6 @@ import { confirmation, sendRequest } from '../../functions.jsx'
 const Reservations = () => {
   const [reservas, setReservas] = useState([])
   const [id, setId] = useState('')
-  const [usuario_id, setUsuario_id] = useState('')
   const [herramienta_maquina_id, setHerramienta_maquina_id] = useState('')
   const [fecha_fin, setFecha_fin] = useState('')
   const [cantidad, setCantidad] = useState('')
@@ -19,8 +18,8 @@ const Reservations = () => {
   const [estado_reserva_id, setEstado_reserva_id] = useState('')
 
   const [usuarios, setUsuarios] = useState([])
-  const 
-  
+  const [usuario_id, setUsuario_id] = useState('')
+
   const [operation, setOperation] = useState('')
   const [title, setTitle] = useState('')
   const [classLoad, setClassLoad] = useState('')
@@ -37,19 +36,25 @@ const Reservations = () => {
 
   useEffect(()=>{
     getReservations()
-    getCategories()
+    getStatuses()
+    getUsers()
   },[])
 
   const getReservations = async () => {
-    const apiUrl = searchTerm.trim() !== '' ? `/proveedores/search/${searchTerm.trim()}` : '/proveedores'
+    const apiUrl = searchTerm.trim() !== '' ? `/proveedores/herramienta/${searchTerm.trim()}` : '/reservas'
     const res = await sendRequest('GET', '', apiUrl, '')
     setReservas(res.data)
     setClassTable('')
   }
 
-  const getCategories = async () => {
-    const res = await sendRequest('GET', '', '/categorias', '')
+  const getStatuses = async () => {
+    const res = await sendRequest('GET', '', '/estados_reserva', '')
     setEstados_reserva(res.data)
+  }
+
+  const getUsers = async () => {
+    const res = await sendRequest('GET', '', '/usuarios', '')
+    setUsuarios(res.data)
   }
 
   const handleSearchSubmit = (event) => {
@@ -70,64 +75,58 @@ const Reservations = () => {
   }
 
   const clear = () => {
-    setUsuario_id('')
     setHerramienta_maquina_id('')
     setFecha_fin('')
     setCantidad('')
-    setCorreo_proveedor('')
-    setTelefono_vendedor('')
+    setUsuario_id('')
     setEstado_reserva_id('')
   }
 
-  const openModal = (op, pr, n, np, dp, tp, c, tv, ca) => {
+  const openModal = (op, id, hid, uid, c) => {
     clear()
     setTimeout( ()=> {if (NameInput.current) {
       NameInput.current.focus()
     }}, 600)
     setOperation(op)
-    setId(pr)
+    setId(id)
     if (op === 1) {
-      setTitle('Registrar proveedor')
+      setTitle('Crear reserva')
     } else if (op === 2) {
-      setTitle('Actualizar proveedor')
-      setUsuario_id(n)
-      setHerramienta_maquina_id(np)
-      setFecha_fin(dp)
-      setCantidad(tp)
-      setCorreo_proveedor(c)
-      setTelefono_vendedor(tv)
-    } else {
-      setTitle('Categorias del proveedor')
-      setEstado_reserva_id(ca)
+      setTitle('Actualizar reserva')
+      setHerramienta_maquina_id(hid)
+      setUsuario_id(uid)
+      setCantidad(c)
+    } else if (op === 3) {
+      setTitle('Actualizar fecha de fin')
+    } else if (op === 4) {
+      setTitle('Actualizar estado de reserva')
     }
   }
 
   const save = async (e) => {
     e.preventDefault()
     body = {
-      NIT: usuario_id,
-      nombre_proveedor: herramienta_maquina_id,
-      direccion_proveedor: fecha_fin,
-      telefono_proveedor: cantidad,
-      correo_proveedor: correo_proveedor,
-      telefono_vendedor: telefono_vendedor
+      herramienta_maquina_id: herramienta_maquina_id,
+      usuario_id: usuario_id,
+      cantidad: cantidad,
+      echa_fin: fecha_fin,
+      estado_reserva_id: estado_reserva_id
     }
     if (operation === 1) {
       method = 'POST'
-      url = '/proveedores/'
+      url = '/reservas'
     } else if (operation === 2) {
       method = 'PUT'
-      url = `/proveedores/${id}`
-    } else {
-      method = 'POST'
-      url = '/proveedores_tienen_categorias/'
-      body = {
-        proveedores_id: id,
-        categorias_id: estado_reserva_id
-      }
+      url = `/reservas/${id}`
+    } else if (operation === 3) {
+      method = 'PUT'
+      url = `/reservas/fecha/${id}`
+    } else if (operation === 4) {
+      method = 'PUT'
+      url = `/reservas/estado/${id}`
     }
     const res = await sendRequest(method, body, url, '', true)
-    if (method === 'PUT' && res.status === 'SUCCESS') {
+    if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
       close.current.click()
     }
     if (res.status === 'SUCCESS') {
@@ -141,35 +140,28 @@ const Reservations = () => {
 
   return (
     <div className='container-fluid'>
-      <h1 className='text-center' >PROVEEDORES</h1>
+      <h1 className='text-center' >RESERVAS</h1>
       <DivSearch placeholder='Buscar proveedor' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
-        <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalProveedores' onClick={()=> openModal(1)}>
+        <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalReservas' onClick={()=> openModal(1)}>
           <i className='fa-solid fa-circle-plus'/>
           Registrar Proveedor
         </button>
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>NIT</th><th>NOMBRE</th><th>E-MAIL</th><th>DIRECCION</th><th>TEL. PROVEEDOR</th><th>TEL. VENDEDOR.</th><th>CATEGORIAS</th><th /><th /><th /></tr></thead>
+          <thead><tr><th>#</th><th>HERRAMIENTA</th><th>CLIENTE</th><th>CANTIDAD</th><th>FECHA INICIO</th><th>FECHA ENTREGA</th><th>DIAS FACTURADOS</th><th>ESTADO</th><th /><th /><th /><th /></tr></thead>
           <tbody className='table-group-divider'>
             {reservas.map((row, index)=>(
-              <tr key={row.proveedor_id}>
+              <tr key={row.id}>
                 <td>{index+1}</td>
-                <td>{row.NIT}</td>
-                <td>{row.nombre_proveedor}</td>
-                <td>{row.correo_proveedor}</td>
-                <td>{row.direccion_proveedor}</td>
-                <td>{row.telefono_proveedor}</td>
-                <td>{row.telefono_vendedor}</td>
-                <td>{row.categorias}</td>
                 <td>
-                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProveedores' onClick={()=> openModal(2, row.proveedor_id, row.NIT, row.nombre_proveedor, row.direccion_proveedor, row.telefono_proveedor, row.correo_proveedor, row.telefono_vendedor)}>
+                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProveedores' onClick={()=> openModal(2, row.id, row.herramienta_maquina_id, row.usuario_id, row.cantidad)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
                 <td>
-                  <button type='button' className='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalProveedorCategoria' onClick={()=> openModal(3, row.proveedor_id)}>
+                  <button type='button' className='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalProveedorFechaFin' onClick={()=> openModal(3, row.id)}>
                     <i className='fa-solid fa-tag'/>
                   </button>
                 </td>
