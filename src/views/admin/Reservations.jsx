@@ -10,15 +10,17 @@ import { confirmation, sendRequest } from '../../functions.jsx'
 const Reservations = () => {
   const [reservas, setReservas] = useState([])
   const [id, setId] = useState('')
-  const [herramienta_maquina_id, setHerramienta_maquina_id] = useState('')
   const [fecha_fin, setFecha_fin] = useState('')
   const [cantidad, setCantidad] = useState('')
 
-  const [estados_reserva, setEstados_reserva] = useState([])
-  const [estado_reserva_id, setEstado_reserva_id] = useState('')
-
   const [usuarios, setUsuarios] = useState([])
   const [usuario_id, setUsuario_id] = useState('')
+
+  const [herramientas, setHerramientas] = useState([])
+  const [herramienta_maquina_id, setHerramienta_maquina_id] = useState('')
+
+  const [estados_reserva, setEstados_reserva] = useState([])
+  const [estado_reserva_id, setEstado_reserva_id] = useState('')
 
   const [operation, setOperation] = useState('')
   const [title, setTitle] = useState('')
@@ -36,8 +38,9 @@ const Reservations = () => {
 
   useEffect(()=>{
     getReservations()
-    getStatuses()
     getUsers()
+    getStatuses()
+    getHerramientas()
   },[])
 
   const getReservations = async () => {
@@ -47,14 +50,19 @@ const Reservations = () => {
     setClassTable('')
   }
 
-  const getStatuses = async () => {
-    const res = await sendRequest('GET', '', '/estados_reserva', '')
-    setEstados_reserva(res.data)
-  }
-
   const getUsers = async () => {
     const res = await sendRequest('GET', '', '/usuarios', '')
     setUsuarios(res.data)
+  }
+
+  const getHerramientas = async () => {
+    const res = await sendRequest('GET', '', '/herramientas', '')
+    setHerramientas(res.data)
+  }
+
+  const getStatuses = async () => {
+    const res = await sendRequest('GET', '', '/estados_reserva', '')
+    setEstados_reserva(res.data)
   }
 
   const handleSearchSubmit = (event) => {
