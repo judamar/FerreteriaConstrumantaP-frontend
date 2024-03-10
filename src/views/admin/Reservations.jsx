@@ -11,6 +11,7 @@ const Reservations = () => {
   const [reservas, setReservas] = useState([])
   const [id, setId] = useState('')
   const [fecha_fin, setFecha_fin] = useState('')
+  const [fecha_inicio, setFecha_inicio] = useState('')
   const [cantidad, setCantidad] = useState('')
 
   const [usuarios, setUsuarios] = useState([])
@@ -44,7 +45,7 @@ const Reservations = () => {
   },[])
 
   const getReservations = async () => {
-    const apiUrl = searchTerm.trim() !== '' ? `/proveedores/herramienta/${searchTerm.trim()}` : '/reservas'
+    const apiUrl = searchTerm.trim() !== '' ? `/reservas/herramienta/${searchTerm.trim()}` : '/reservas'
     const res = await sendRequest('GET', '', apiUrl, '')
     setReservas(res.data)
     setClassTable('')
@@ -56,7 +57,7 @@ const Reservations = () => {
   }
 
   const getHerramientas = async () => {
-    const res = await sendRequest('GET', '', '/herramientas', '')
+    const res = await sendRequest('GET', '', '/herramientas_maquinas', '')
     setHerramientas(res.data)
   }
 
@@ -75,11 +76,7 @@ const Reservations = () => {
   }
 
   const deleteProvider = async (name, id) => {
-    confirmation(name, `/proveedores/${id}`, '/proveedores')
-  }
-
-  const deleteCategories = async (name, id) => {
-    confirmation(name, `/proveedores_tienen_categorias/${id}`, '/proveedores')
+    confirmation(name, `/reservas/${id}`, '/reservas')
   }
 
   const clear = () => {
@@ -113,25 +110,36 @@ const Reservations = () => {
 
   const save = async (e) => {
     e.preventDefault()
-    body = {
-      herramienta_maquina_id: herramienta_maquina_id,
-      usuario_id: usuario_id,
-      cantidad: cantidad,
-      echa_fin: fecha_fin,
-      estado_reserva_id: estado_reserva_id
-    }
     if (operation === 1) {
       method = 'POST'
       url = '/reservas'
+      body = {
+        usuario_id: usuario_id,
+        herramienta_maquina_id: herramienta_maquina_id,
+        cantidad: cantidad,
+        fecha_fin: fecha_fin,
+        estado_reserva_id: estado_reserva_id
+      }
     } else if (operation === 2) {
       method = 'PUT'
       url = `/reservas/${id}`
+      body = {
+        herramientas_maquinas_id: herramienta_maquina_id,
+        usuarios_id: usuario_id,
+        fecha_inicio: fecha_inicio
+      }
     } else if (operation === 3) {
-      method = 'PUT'
+      method = 'PATCH'
       url = `/reservas/fecha/${id}`
+      body = {
+        fecha_fin: fecha_fin
+      }
     } else if (operation === 4) {
-      method = 'PUT'
+      method = 'PATCH'
       url = `/reservas/estado/${id}`
+      body = {
+        estado: estado_reserva_id
+      }
     }
     const res = await sendRequest(method, body, url, '', true)
     if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
@@ -149,7 +157,7 @@ const Reservations = () => {
   return (
     <div className='container-fluid'>
       <h1 className='text-center' >RESERVAS</h1>
-      <DivSearch placeholder='Buscar proveedor' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
+      <DivSearch placeholder='Buscar reserva' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
         <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalReservas' onClick={()=> openModal(1)}>
           <i className='fa-solid fa-circle-plus'/>
@@ -158,23 +166,38 @@ const Reservations = () => {
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>HERRAMIENTA</th><th>CLIENTE</th><th>CANTIDAD</th><th>FECHA INICIO</th><th>FECHA ENTREGA</th><th>DIAS FACTURADOS</th><th>ESTADO</th><th /><th /><th /><th /></tr></thead>
+          <thead><tr><th>#</th><th>HERRAMIENTA</th><th>CLIENTE</th><th>CONTACTO</th><th>CANTIDAD</th><th>FECHA INICIO</th><th>FECHA ENTREGA</th><th>DIAS FACTURADOS</th><th>$ ALQ.</th><th>$ TOTAL</th><th>ESTADO</th><th /><th /><th /><th /></tr></thead>
           <tbody className='table-group-divider'>
             {reservas.map((row, index)=>(
               <tr key={row.id}>
                 <td>{index+1}</td>
+                <td>{row.nombre_articulo}</td>
+                <td>{row.nombre_completo}</td>
+                <td>{row.telefono}</td>
+                <td>{row.cantidad}</td>
+                <td>{row.fecha_inicio_format}</td>
+                <td>{row.fecha_fin_format}</td>
+                <td>{row.dias_alquiler}</td>
+                <td>{row.precio_alquiler}</td>
+                <td>{row.total}</td>
+                <td>{row.estado}</td>
                 <td>
-                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProveedores' onClick={()=> openModal(2, row.id, row.herramienta_maquina_id, row.usuario_id, row.cantidad)}>
+                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalReservasUpdate' onClick={()=> openModal(2, row.id, row.herramienta_maquina_id, row.usuario_id, row.fecha_inicio_format)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
                 <td>
-                  <button type='button' className='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalProveedorFechaFin' onClick={()=> openModal(3, row.id)}>
+                  <button type='button' className='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalReservasFechaFin' onClick={()=> openModal(3, row.id)}>
+                    <i className='fa-solid fa-calendar-day'/>
+                  </button>
+                </td>
+                <td>
+                  <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalReservasEstado' onClick={()=> openModal(4, row.id)}>
                     <i className='fa-solid fa-tag'/>
                   </button>
                 </td>
                 <td>
-                  <button type='button' className='btn btn-danger' onClick={()=> deleteProvider(row.nombre_proveedor, row.proveedor_id)}>
+                  <button type='button' className='btn btn-danger' onClick={()=> deleteProvider(row.id, row.id)}>
                     <i className='fa-solid fa-trash'/>
                   </button>
                 </td>
@@ -183,14 +206,13 @@ const Reservations = () => {
           </tbody>
         </table>
       </DivTable>
-      <Modal title={title} modal='modalProveedores'>
+      <Modal title={title} modal='modalReservas'>
         <div className='modal-body'>
-          <DivInput type='number' icon='fa-at' value={usuario_id} className='form-control' placeholder='NIT Proveedor' required='required' handleChange={(e)=> setUsuario_id(e.target.value)}/>
-          <DivInput type='text' icon='fa-user' value={herramienta_maquina_id} className='form-control' placeholder='Nombre Proveedor' required='required' handleChange={(e)=> setHerramienta_maquina_id(e.target.value)}/>
-          <DivInput type='email' icon='fa-envelope' value={correo_proveedor} className='form-control' placeholder='Correo Electrónico' required='required' handleChange={(e)=> setCorreo_proveedor(e.target.value)}/>
-          <DivInput type='text' icon='fa-location-dot' value={fecha_fin} className='form-control' placeholder='Dirección' required='required' handleChange={(e)=> setFecha_fin(e.target.value)}/>
-          <DivInput type='number' icon='fa-phone' value={cantidad} className='form-control' placeholder='Teléfono proveedor' required='required' handleChange={(e)=> setCantidad(e.target.value)}/>
-          <DivInput type='number' icon='fa-phone' value={telefono_vendedor} className='form-control' placeholder='Teléfono vendedor' required='required' handleChange={(e)=> setTelefono_vendedor(e.target.value)}/>
+          <DivSelect icon='fa-user' value={usuario_id} required='required' className='form-select' options={usuarios} sel='nombre_completo' handleChange={(e)=>setUsuario_id(e.target.value)}/>
+          <DivSelect icon='fa-hammer' value={herramienta_maquina_id} required='required' className='form-select' options={herramientas} sel='nombre_articulo' handleChange={(e)=>setHerramienta_maquina_id(e.target.value)}/>
+          <DivInput icon='fa-calendar-day' type='date' value={fecha_fin} required='required' className='form-control' handleChange={(e)=>setFecha_fin(e.target.value)}/>
+          <DivInput icon='fa-hashtag' type='number' value={cantidad} required='required' className='form-control' placeholder='Cantidad' handleChange={(e)=>setCantidad(e.target.value)}/>
+          <DivSelect icon='fa-tag' value={estado_reserva_id} required='required' className='form-select' options={estados_reserva} sel='estado' handleChange={(e)=>setEstado_reserva_id(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
             <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
@@ -201,16 +223,40 @@ const Reservations = () => {
           <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' ref={close}>Cerrar</button>
         </div>
       </Modal>
-      <Modal title={title} modal='modalProveedorCategoria'>
+      <Modal title={title} modal='modalReservasUpdate'>
         <div className='modal-body'>
-          <DivSelect icon='fa-tag' value={estado_reserva_id} required='required' className='form-select' options={estados_reserva} sel='categoria' handleChange={(e)=>setEstado_reserva_id(e.target.value)}/>
+          <DivSelect icon='fa-user' value={usuario_id} required='required' className='form-select' options={usuarios} sel='nombre_completo' handleChange={(e)=>setUsuario_id(e.target.value)}/>
+          <DivSelect icon='fa-hammer' value={herramienta_maquina_id} required='required' className='form-select' options={herramientas} sel='nombre_articulo' handleChange={(e)=>setHerramienta_maquina_id(e.target.value)}/>
+          <DivInput icon='fa-calendar-day' type='date' value={fecha_inicio} required='required' className='form-control' handleChange={(e)=>setFecha_inicio(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
             <button type='button' className='btn btn-success' onClick={save}>
-              <i className='fa-solid fa-save'/>Añadir
+              <i className='fa-solid fa-save'/>Guardar
             </button>
-            <br/>
-            <button type='button' className='btn btn-danger' onClick={()=> deleteCategories('Categorias', id)}>
-              <i className='fa-solid fa-trash'/>Eliminar categorias
+          </div>
+        </div>
+        <div className='modal-footer'>
+          <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' ref={close}>Cerrar</button>
+        </div>
+      </Modal>
+      <Modal title={title} modal='modalReservasFechaFin'>
+        <div className='modal-body'>
+          <DivInput icon='fa-calendar-day' type='date' value={fecha_fin} required='required' className='form-control' handleChange={(e)=>setFecha_fin(e.target.value)}/>
+          <div className='d-grid col-10 mx-auto'>
+            <button type='button' className='btn btn-success' onClick={save}>
+              <i className='fa-solid fa-save'/>Guardar
+            </button>
+          </div>
+        </div>
+        <div className='modal-footer'>
+          <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' ref={close}>Cerrar</button>
+        </div>
+      </Modal>
+      <Modal title={title} modal='modalReservasEstado'>
+        <div className='modal-body'>
+          <DivSelect icon='fa-tag' value={estado_reserva_id} required='required' className='form-select' options={estados_reserva} sel='estado' handleChange={(e)=>setEstado_reserva_id(e.target.value)}/>
+          <div className='d-grid col-10 mx-auto'>
+            <button type='button' className='btn btn-success' onClick={save}>
+              <i className='fa-solid fa-save'/>Guardar
             </button>
           </div>
         </div>
