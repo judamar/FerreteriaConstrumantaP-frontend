@@ -29,6 +29,7 @@ const Reservations = () => {
   const [classTable, setClassTable] = useState('d-none')
 
   const [searchTerm, setSearchTerm] = useState('')
+  const [cedula, setCedula] = useState('')
   
   const NameInput = useRef(null)
   const close = useRef()
@@ -166,13 +167,14 @@ const Reservations = () => {
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
-          <thead><tr><th>#</th><th>HERRAMIENTA</th><th>CLIENTE</th><th>CONTACTO</th><th>CANTIDAD</th><th>FECHA INICIO</th><th>FECHA ENTREGA</th><th>DIAS FACTURADOS</th><th>$ ALQ.</th><th>$ TOTAL</th><th>ESTADO</th><th /><th /><th /><th /></tr></thead>
+          <thead><tr><th>#</th><th>HERRAMIENTA</th><th>CLIENTE</th><th>CEDULA</th><th>CONTACTO</th><th>CANTIDAD</th><th>FECHA INICIO</th><th>FECHA ENTREGA</th><th>DIAS FACTURADOS</th><th>$ ALQ.</th><th>$ TOTAL</th><th>ESTADO</th><th /><th /><th /><th /></tr></thead>
           <tbody className='table-group-divider'>
             {reservas.map((row, index)=>(
               <tr key={row.id}>
                 <td>{index+1}</td>
                 <td>{row.nombre_articulo}</td>
                 <td>{row.nombre_completo}</td>
+                <td>{row.cedula}</td>
                 <td>{row.telefono}</td>
                 <td>{row.cantidad}</td>
                 <td>{row.fecha_inicio_format}</td>
@@ -182,7 +184,7 @@ const Reservations = () => {
                 <td>{row.total}</td>
                 <td>{row.estado}</td>
                 <td>
-                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalReservasUpdate' onClick={()=> openModal(2, row.id, row.herramienta_maquina_id, row.usuario_id, row.fecha_inicio_format)}>
+                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalReservasUpdate' onClick={()=> openModal(2, row.id)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
@@ -208,11 +210,12 @@ const Reservations = () => {
       </DivTable>
       <Modal title={title} modal='modalReservas'>
         <div className='modal-body'>
-          <DivSelect icon='fa-user' value={usuario_id} required='required' className='form-select' options={usuarios} sel='nombre_completo' handleChange={(e)=>setUsuario_id(e.target.value)}/>
-          <DivSelect icon='fa-hammer' value={herramienta_maquina_id} required='required' className='form-select' options={herramientas} sel='nombre_articulo' handleChange={(e)=>setHerramienta_maquina_id(e.target.value)}/>
-          <DivInput icon='fa-calendar-day' type='date' value={fecha_fin} required='required' className='form-control' handleChange={(e)=>setFecha_fin(e.target.value)}/>
-          <DivInput icon='fa-hashtag' type='number' value={cantidad} required='required' className='form-control' placeholder='Cantidad' handleChange={(e)=>setCantidad(e.target.value)}/>
-          <DivSelect icon='fa-tag' value={estado_reserva_id} required='required' className='form-select' options={estados_reserva} sel='estado' handleChange={(e)=>setEstado_reserva_id(e.target.value)}/>
+          <DivSelect icon='fa-user' value={usuario_id} required='required' className='form-select' placeholder='---Cliente---' options={usuarios} sel='nombre_completo' handleChange={(e)=>setUsuario_id(e.target.value)}/>
+          <DivSelect icon='fa-hammer' value={herramienta_maquina_id} required='required' className='form-select' placeholder='---Herramienta---' options={herramientas} sel='nombre_articulo' handleChange={(e)=>setHerramienta_maquina_id(e.target.value)}/>
+          <label>Fecha entrega:</label>
+          <DivInput icon='fa-calendar-day' type='date' value={fecha_fin} required='required' className='form-control' placeholder='Fecha entrega' handleChange={(e)=>setFecha_fin(e.target.value)}/>
+          <DivInput icon='fa-hashtag' type='number' value={cantidad} required='required' className='form-control' placeholder='Cantidad alquilada' handleChange={(e)=>setCantidad(e.target.value)}/>
+          <DivSelect icon='fa-tag' value={estado_reserva_id} required='required' className='form-select' placeholder='---Estado---' options={estados_reserva} sel='estado' handleChange={(e)=>setEstado_reserva_id(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
             <button type='button' className='btn btn-success' onClick={save}>
               <i className='fa-solid fa-save'/>Guardar
@@ -222,7 +225,7 @@ const Reservations = () => {
         <div className='modal-footer'>
           <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' ref={close}>Cerrar</button>
         </div>
-      </Modal>
+      </Modal> 
       <Modal title={title} modal='modalReservasUpdate'>
         <div className='modal-body'>
           <DivSelect icon='fa-user' value={usuario_id} required='required' className='form-select' options={usuarios} sel='nombre_completo' handleChange={(e)=>setUsuario_id(e.target.value)}/>
