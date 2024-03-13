@@ -14,6 +14,8 @@ import Sugerencias from './views/admin/Suggestions.jsx'
 import ToolsStatuses from './views/admin/ToolsStatuses.jsx'
 import ReservationStatuses from './views/admin/ReservationStatuses.jsx'
 import Reservations from './views/admin/Reservations.jsx'
+import Sales from './views/admin/sales/index.jsx'
+import InvoiceTemplate from './utils/InvoiceTemplate.jsx'
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
             <Route path='/estados_reservas' element={<ReservationStatuses/>}/>
             <Route path='/reservas' element={<Reservations/>}/>
             <Route path='/estados_ventas' element={<SalesStatuses/>}/>
+            <Route path='/ventas' element={<Sales/>}/>
+            <Route path='/ventas/:id' element={<InvoiceTemplate/>}/>
             <Route path='/proveedores' element={<Providers/>}/>
             <Route path='/sugerencias' element={<Sugerencias/>}/>
           </Route>
