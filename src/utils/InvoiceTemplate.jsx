@@ -18,37 +18,41 @@ const InvoiceTemplate = () => {
   }
   
   return (
-    <div className="container">
+    <div className="container mt-4 border">
       <div className="row">
         <div className="col-xs-12">
           <div className="invoice-title">
             <h2>Factura</h2>
-            <h3 className="pull-right">Orden # {venta.venta_id}</h3>
+            <h3>Orden # {venta.venta_id}</h3>
           </div>
           <hr />
           <div className="row">
             <div className="col-xs-6">
               <address>
-                <strong>Facturado a:</strong><br />
-                {venta.nombre_cliente}<br />
-                {venta.direccion}<br />
-                {venta.cedula}
+                <strong>FERRETERÍA CONSTRUMANTA P</strong><br />
+                NIT: <br />
+                Dirección: <br />
+                Ciudad: <br />
+                Teléfono: <br />
+                Correo electrónico: <br />
               </address>
             </div>
             <div className="col-xs-6 text-right">
               <address>
-                <strong>Enviado a:</strong><br />
-                {venta.nombre_cliente}<br />
-                {venta.direccion}<br />
-                {venta.cedula}
+                <strong>Facturado a:</strong><br />
+                Cliente: {venta.nombre_cliente}<br />
+                Cédula: {venta.cedula} <br />
+                Dirección: {venta.direccion}<br />
+                Teléfono: {venta.telefono}<br />
+                Correo electrónico: {venta.correo_electronico}
               </address>
             </div>
           </div>
           <div className="row">
             <div className="col-xs-6">
               <address>
-                <strong>Método de pago:</strong><br />
-                {/* Agregar método de pago aquí */}
+                <strong>Estado de venta: </strong><br />
+                {venta.estado_venta}<br />
               </address>
             </div>
             <div className="col-xs-6 text-right">
@@ -82,28 +86,28 @@ const InvoiceTemplate = () => {
                     {venta.productos?.map((producto, index) => (
                       <tr key={producto.id}>
                         <td>{producto.producto}</td>
-                        <td className="text-center">${producto.valor_unitario}</td>
+                        <td className="text-center">${producto.valor_unitario.toFixed(2)}</td>
                         <td className="text-center">{producto.cantidad}</td>
-                        <td className="text-right">${producto.valor_total}</td>
+                        <td className="text-right">${producto.valor_total.toFixed(2)}</td>
                       </tr>
                     ))}
                     <tr>
                       <td className="thick-line" />
                       <td className="thick-line" />
                       <td className="thick-line text-center"><strong>Subtotal</strong></td>
-                      <td className="thick-line text-right">${venta.subototal}</td>
+                      <td className="thick-line text-right">${venta.subototal.toFixed(2)}</td>
                     </tr>
                     <tr>
                       <td className="no-line" />
                       <td className="no-line" />
                       <td className="no-line text-center"><strong>IVA ({venta.IVA})</strong></td>
-                      <td className="no-line text-right">${(venta.total_venta - venta.subototal)}</td>
+                      <td className="no-line text-right">${(venta.total_venta - venta.subototal).toFixed(2)}</td>
                     </tr>
                     <tr>
                       <td className="no-line" />
                       <td className="no-line" />
                       <td className="no-line text-center"><strong>Total</strong></td>
-                      <td className="no-line text-right">${venta.total_venta}</td>
+                      <td className="no-line text-right">${venta.total_venta.toFixed(2)}</td>
                     </tr>
                   </tbody>
                 </table>
