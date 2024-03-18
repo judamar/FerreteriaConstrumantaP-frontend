@@ -61,14 +61,14 @@ const Sales = () => {
               <th>Subtotal</th>
               <th>IVA</th>
               <th>Total</th>
-              <th>Acciones</th>
+              <th/>
             </tr>
           </thead>
           <tbody>
             {ventas.map((row, index)=>(
               <tr key={row.venta_id}>
                 <td>{index+1}</td>
-                <td>{row.venta_id}</td>
+                <td>#{row.venta_id}</td>
                 <td>{row.fecha_emision}</td>
                 <td>{row.nombre_cliente}</td>
                 <td>{row.cedula}</td>
@@ -79,10 +79,12 @@ const Sales = () => {
                 <td>{row.total_venta}</td>
                 <td>
                   <Link to={`/ventas/${row.venta_id}` } className='btn btn-primary'>
-                    <i className="fa-solid fa-eye"i/>
+                    <i className="fa-solid fa-eye"/>
                   </Link>
+                </td>
+                <td>
                   <button type='button' onClick={()=>deleteSale(row.nombre_cliente, row.venta_id)} className='btn btn-danger'>
-                    <i className="fa-solid fa-trash"i/>
+                    <i className="fa-solid fa-trash"/>
                   </button>
                 </td>
               </tr>
