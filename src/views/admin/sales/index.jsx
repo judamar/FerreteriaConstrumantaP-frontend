@@ -78,7 +78,7 @@ const Sales = () => {
                 <td>{row.IVA}</td>
                 <td>{row.total_venta}</td>
                 <td>
-                  <Link to={`/ventas/${row.venta_id}` } className='btn btn-primary'>
+                  <Link to={`/ventas/${row.venta_id}` } className='btn btn-primary' target='_blank' rel='noreferrer noopener'>
                     <i className="fa-solid fa-eye"/>
                   </Link>
                 </td>

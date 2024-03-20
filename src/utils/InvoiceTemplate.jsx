@@ -20,7 +20,6 @@ const InvoiceTemplate = () => {
   const handleDownloadPDF = () => {
     // Seleccionar el elemento contenedor del contenido de la factura
     const element = document.querySelector('.invoice-container')
-
     // Opciones para la generación del PDF
     const options = {
       margin: 0.5,
@@ -74,7 +73,7 @@ const InvoiceTemplate = () => {
               <div className="col-6 text-right">
                 <address>
                   <strong>Fecha de orden:</strong><br />
-                  {new Date(venta.fecha_emision).toLocaleDateString()}<br /><br />
+                  {venta.fecha_emision}<br /><br />
                 </address>
               </div>
             </div>
@@ -90,9 +89,10 @@ const InvoiceTemplate = () => {
                 <div className="table-responsive">
                   <table className="table table-condensed">
                     <thead>
-                      <tr>
-                        <td><strong>Artículo</strong></td>
+                      <tr key='a'>
                         <td className="text-center"><strong>#</strong></td>
+                        <td className='text-center'><strong>Artículo</strong></td>
+                        <td className="text-center"><strong>Precio sin iva</strong></td>
                         <td className="text-center"><strong>Precio</strong></td>
                         <td className="text-center"><strong>Cantidad</strong></td>
                         <td className="text-right"><strong>Total</strong></td>
@@ -101,30 +101,37 @@ const InvoiceTemplate = () => {
                     <tbody>
                       {venta.productos?.map((producto, index) => (
                         <tr key={producto.id}>
-                          <td>{producto.producto}</td>
                           <td className="text-center">{index + 1}</td>
-                          <td className="text-center">${producto.valor_unitario}</td>
+                          <td className='text-center'>{producto.producto}</td>
+                          <td className="text-center">${producto.valor_sin_iva.toFixed(2)}</td>
+                          <td className="text-center">${producto.valor_unitario.toFixed(2)}</td>
                           <td className="text-center">{producto.cantidad}</td>
-                          <td className="text-right">${producto.valor_total}</td>
+                          <td className="text-right">${producto.valor_total.toFixed(2)}</td>
                         </tr>
                       ))}
-                      <tr>
+                      <tr key='b'>
+                        <td className="thick-line" />
+                        <td className="thick-line" />
                         <td className="thick-line" />
                         <td className="thick-line" />
                         <td className="thick-line text-center"><strong>Subtotal</strong></td>
-                        <td className="thick-line text-right">${venta.subototal}</td>
+                        <td className="thick-line text-right">${venta.subototal ? venta.subototal.toFixed(2) : '0'}</td>
                       </tr>
-                      <tr>
+                      <tr key='c'>
+                        <td className="no-line" />
+                        <td className="no-line" />
                         <td className="no-line" />
                         <td className="no-line" />
                         <td className="no-line text-center"><strong>IVA ({venta.IVA})</strong></td>
-                        <td className="no-line text-right">${(venta.total_venta - venta.subototal)}</td>
+                        <td className="no-line text-right">${(venta.total_venta - venta.subototal) ? (venta.total_venta - venta.subototal).toFixed(2) : '0'}</td>
                       </tr>
-                      <tr>
+                      <tr key='d'>
+                        <td className="no-line" />
+                        <td className="no-line" />
                         <td className="no-line" />
                         <td className="no-line" />
                         <td className="no-line text-center"><strong>Total</strong></td>
-                        <td className="no-line text-right">${venta.total_venta}</td>
+                        <td className="no-line text-right">${venta.total_venta ? venta.total_venta.toFixed(2) : '0'}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -136,7 +143,7 @@ const InvoiceTemplate = () => {
       </div>
       <button type='button' className="btn btn-success m-1" onClick={handleDownloadPDF}>Descargar factura</button>
     </div>
-  );
-};
+  )
+}
 
-export default InvoiceTemplate;
+export default InvoiceTemplate
