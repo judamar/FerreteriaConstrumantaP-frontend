@@ -43,7 +43,7 @@ const Sales = () => {
       <DivAdd>
         <Link to='create' className='btn btn-success'>
           <i className="fa-solid fa-circle-plus">
-            Crear venta
+            Crear Orden
           </i>
         </Link>
       </DivAdd>
@@ -52,14 +52,13 @@ const Sales = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Factura #</th>
+              <th>Orden #</th>
+              <th>Tipo</th>
               <th>Fecha</th>
               <th>Cliente</th>
               <th>Cedula</th>
               <th>Direccion</th>
               <th>Estado</th>
-              <th>Subtotal</th>
-              <th>IVA</th>
               <th>Total</th>
               <th/>
             </tr>
@@ -69,14 +68,13 @@ const Sales = () => {
               <tr key={row.venta_id}>
                 <td>{index+1}</td>
                 <td>#{row.venta_id}</td>
-                <td>{row.fecha_emision}</td>
+                <td>{row.tipo}</td>
+                <td>{row.fecha_emision_format}</td>
                 <td>{row.nombre_cliente}</td>
                 <td>{row.cedula}</td>
                 <td>{row.direccion}</td>
                 <td>{row.estado_venta}</td>
-                <td>{row.subototal}</td>
-                <td>{row.IVA}</td>
-                <td>{row.total_venta}</td>
+                <td>$ {row.total_venta.toFixed(2)}</td>
                 <td>
                   <Link to={`/ventas/${row.venta_id}` } className='btn btn-primary' target='_blank' rel='noreferrer noopener'>
                     <i className="fa-solid fa-eye"/>

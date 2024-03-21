@@ -37,7 +37,7 @@ const InvoiceTemplate = () => {
         <div className="row">
           <div className="col-xs-12">
             <div className="invoice-title">
-              <h2>Factura</h2>
+              <h2>{venta.tipo}</h2>
               <h3>Orden # {venta.venta_id}</h3>
             </div>
             <hr />
@@ -66,14 +66,14 @@ const InvoiceTemplate = () => {
             <div className="row">
               <div className="col-6">
                 <address>
-                  <strong>Estado de venta: </strong><br />
+                  <strong>Estado de la Orden: </strong><br />
                   <div className='btn btn-info btn-sm'>{venta.estado_venta}</div><br />
                 </address>
               </div>
               <div className="col-6 text-right">
                 <address>
                   <strong>Fecha de orden:</strong><br />
-                  {venta.fecha_emision}<br /><br />
+                  {venta.fecha_emision_format}<br /><br />
                 </address>
               </div>
             </div>
