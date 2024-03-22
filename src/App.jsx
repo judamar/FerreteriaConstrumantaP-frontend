@@ -15,6 +15,7 @@ import ToolsStatuses from './views/admin/ToolsStatuses.jsx'
 import ReservationStatuses from './views/admin/ReservationStatuses.jsx'
 import Reservations from './views/admin/Reservations.jsx'
 import Sales from './views/admin/sales/index.jsx'
+import CreateSale from './views/admin/sales/CreateSale.jsx'
 import InvoiceTemplate from './utils/InvoiceTemplate.jsx'
 
 function App() {
@@ -36,7 +37,8 @@ function App() {
             <Route path='/reservas' element={<Reservations/>}/>
             <Route path='/estados_ventas' element={<SalesStatuses/>}/>
             <Route path='/ventas' element={<Sales/>}/>
-            <Route path='/ventas/:id' element={<InvoiceTemplate/>}/>
+            <Route path='/ventas/factura/:id' element={<InvoiceTemplate/>}/>
+            <Route path='/ventas/crear' element={<CreateSale/>}/>
             <Route path='/proveedores' element={<Providers/>}/>
             <Route path='/sugerencias' element={<Sugerencias/>}/>
           </Route>

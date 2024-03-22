@@ -41,7 +41,7 @@ const Sales = () => {
       <h1 className='text-center' >VENTAS</h1>
       <DivSearch placeholder='Buscar venta por cliente' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
-        <Link to='create' className='btn btn-success'>
+        <Link to='crear' className='btn btn-success'>
           <i className="fa-solid fa-circle-plus">
             Crear Orden
           </i>
@@ -76,7 +76,7 @@ const Sales = () => {
                 <td>{row.estado_venta}</td>
                 <td>$ {row.total_venta.toFixed(2)}</td>
                 <td>
-                  <Link to={`/ventas/${row.venta_id}` } className='btn btn-primary' target='_blank' rel='noreferrer noopener'>
+                  <Link to={`/ventas/factura/${row.venta_id}` } className='btn btn-primary' target='_blank' rel='noreferrer noopener'>
                     <i className="fa-solid fa-eye"/>
                   </Link>
                 </td>

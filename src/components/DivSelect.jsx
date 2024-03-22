@@ -1,7 +1,7 @@
 import React, {forwardRef, useEffect, useRef} from 'react'
 
 // eslint-disable-next-line react-refresh/only-export-components, react/display-name, react/prop-types
-export default forwardRef(({ options=[], sel, icon='user', name, id, value, className, placeholder='Seleccionar', required, isFocused, handleChange}, ref) => {
+export default forwardRef(({ options=[], sel, sel2='', separator='', icon='user', name, id, value, className, placeholder='Seleccionar', required, isFocused, handleChange}, ref) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const input = ref ? ref: useRef()
   useEffect(()=>{
@@ -18,7 +18,7 @@ export default forwardRef(({ options=[], sel, icon='user', name, id, value, clas
         <option value="" disabled>{placeholder}</option>
         { options.map((op) => (
           <option value={op.id} key={op.id}>
-            {op[sel]}
+            {op[sel]}{separator}{op[sel2]}
           </option>
         ))}
       </select>
