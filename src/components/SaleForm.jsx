@@ -97,6 +97,7 @@ const SaleForm = (params) => {
       item.ventas_id = venta_id
     })
     for (let i = 0; i < detalle_venta.length; i++) {
+      console.log(detalle_venta[i])
       await sendRequest('POST', detalle_venta[i], '/detalle_venta', '')
     }
     setDetalle_venta([])
