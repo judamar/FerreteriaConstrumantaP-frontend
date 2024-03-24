@@ -137,7 +137,10 @@ const SaleForm = (params) => {
       item.ventas_id = venta_id
       await sendRequest('POST', item, '/detalles_ventas', '')
     }))
+    clear()
+  }
 
+  const clear = () => {
     setDetalle_venta([])
     setProducts_List([])
     setProducto_id('')
@@ -170,14 +173,14 @@ const SaleForm = (params) => {
                     COTIZACIÓN
                   </label>
                 </div>
-                <DivSelect icon='fa-user' value={usuario_id} required={required} className='form-select' options={usuarios} sel='nombre_completo' handleChange={(e)=>setUsuario_id(e.target.value)}/>
-                <DivSelect icon='fa-tag' value={estado_id} required={required} className='form-select' options={estados} sel='estado' handleChange={(e)=>setEstado_id(e.target.value)}/>
+                <DivSelect icon='fa-user' value={usuario_id} placeholder='Cliente' required={required} className='form-select' options={usuarios} sel='nombre_completo' handleChange={(e)=>setUsuario_id(e.target.value)}/>
+                <DivSelect icon='fa-tag' value={estado_id} placeholder='Estado' required={required} className='form-select' options={estados} sel='estado' handleChange={(e)=>setEstado_id(e.target.value)}/>
                 <div className="card border border-danger">
                   <div className="card-header bg-danger text-white border border-danger">
                     AÑADIR PRODUCTO
                   </div>
                   <div className="card-body">
-                    <DivSelect icon='fa-hammer' value={producto_id} required='' className='form-select' options={productos} sel='nombre_producto' sel2='precio' separator=' - $' handleChange={(e)=>setProducto_id(e.target.value)}/>
+                    <DivSelect icon='fa-hammer' value={producto_id} placeholder='Producto' required='' className='form-select' options={productos} sel='nombre_producto' sel2='precio' separator=' - $' handleChange={(e)=>setProducto_id(e.target.value)}/>
                     <DivInput icon='fa-boxes' type='number' value={cantidad} required='' className='form-control' placeholder='Cantidad' handleChange={(e)=>setCantidad(e.target.value)}/>
                     <button className='btn btn-success' type='button' onClick={saveDetail}>------ Añadir Producto ------</button>
                   </div>
