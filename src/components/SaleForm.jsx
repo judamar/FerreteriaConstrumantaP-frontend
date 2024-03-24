@@ -11,12 +11,16 @@ const SaleForm = (params) => {
   const [productos, setProductos] = useState([])
 
   const [detalle_venta, setDetalle_venta] = useState([])
+  const [products_List, setProducts_List] = useState([])
 
   const [usuario_id, setUsuario_id] = useState('')
   const [estado_id, setEstado_id] = useState('')
   const [tipo, setTipo] = useState('')
   const [producto_id, setProducto_id] = useState('')
   const [cantidad, setCantidad] = useState('')
+
+  const [required, setRequired] = useState('required')
+  const [disabled, setDisabled] = useState('disabled')
 
   const NameInput = useRef()
   let method = 'POST'
@@ -33,9 +37,11 @@ const SaleForm = (params) => {
   const getSale = async () => {
     if (params.id !== null) {
       const res = await sendRequest('GET', '', `/ventas/${params.id}`, '')
-      setUsuario_id(res.data.usuarios_id)
-      setEstado_id(res.data.estado_venta_id)
-      setTipo(res.data.tipo)
+      setUsuario_id(res[0].data.usuario_id)
+      setEstado_id(res[0].data.estado_venta_id)
+      setTipo(res[0].data.tipo)
+      setRequired('')
+
     }
   }
 
@@ -56,6 +62,23 @@ const SaleForm = (params) => {
     setTipo(e.target.value)
   }
 
+  const calculateTotal = () => {
+    let total = 0
+    products_List.forEach((product) => {
+      total += product.product_price * product.quantity;
+    })
+    return total
+  }
+
+  const deleteFromLists = (index) => {
+    const newList = [...products_List]
+    newList.splice(index, 1)
+    setProducts_List(newList)
+    const newDetail = [...detalle_venta]
+    newDetail.splice(index, 1)
+    setDetalle_venta(newDetail)
+  }
+
   const saveSale = async (e) => {
     e.preventDefault()
     if (params.id !== null) {
@@ -69,11 +92,14 @@ const SaleForm = (params) => {
       tipo: tipo
     }
     const res = await sendRequest(method, bodySale, url, redirect)
-    setVenta_id(res.data.insertId)
-    if (method === 'PUT' && res.status === 'SUCCESS') {
-      setUsuario_id('')
-      setEstado_id('')
-      setTipo('')
+    if (res.status === 'SUCCESS') {
+      const insertId = res.data.insertId
+      setVenta_id(insertId)
+      if (method === 'PUT') {
+        setUsuario_id('')
+        setEstado_id('')
+        setTipo('')
+      }
     }
   }
 
@@ -82,7 +108,20 @@ const SaleForm = (params) => {
     const bodyDetail = {
       ventas_id: venta_id,
       productos_id: producto_id,
-      cantidad: cantidad
+      cantidad_vendida: cantidad
+    }
+
+    const res = await sendRequest('GET', '', `/productos/id/${producto_id}`, '')
+    if (res.status === 'SUCCESS') {
+      const producto = res.data
+      console.log(producto)
+      const productsList = {
+        product_name: producto[0].nombre_producto,
+        product_price: producto[0].precio,
+        quantity: cantidad
+      }
+      setProducts_List([...products_List, productsList])
+      console.log(products_List)
     }
 
     setDetalle_venta([...detalle_venta, bodyDetail])
@@ -92,18 +131,18 @@ const SaleForm = (params) => {
 
   const save = async (e) => {
     e.preventDefault()
-    await saveSale()
-    detalle_venta.forEach(async (item) => {
+    saveSale(e)
+    setTimeout(5000)
+    Promise.all(detalle_venta.map(async (item) => {      
       item.ventas_id = venta_id
-    })
-    for (let i = 0; i < detalle_venta.length; i++) {
-      console.log(detalle_venta[i])
-      await sendRequest('POST', detalle_venta[i], '/detalle_venta', '')
-    }
+      await sendRequest('POST', item, '/detalles_ventas', '')
+    }))
+
     setDetalle_venta([])
+    setProducts_List([])
     setProducto_id('')
-    setCantidad('')
     setVenta_id('')
+    setCantidad('')
     setUsuario_id('')
     setEstado_id('')
     setTipo('')
@@ -112,7 +151,7 @@ const SaleForm = (params) => {
   return (
     <div className='container-fluid'>
       <div className="row mt-5">
-        <div className="col-md-4 offset-md-4">
+        <div className="col-md-6 offset-md-3">
           <div className="card border border-danger">
             <div className="card-header bg-danger text-white border border-danger">
               {params.title}
@@ -121,51 +160,68 @@ const SaleForm = (params) => {
               <form onSubmit={save}>
                 <div className="form-check">
                   <input className="form-check-input" type="radio" name="flexRadioDefault" value='FACTURA DE VENTA' onChange={handleChangeType}/>
-                    <label className="form-check-label" for="flexRadioDefault1">
+                    <label className="form-check-label" htmlFor="flexRadioDefault1">
                       FACTURA DE VENTA
                     </label>
                 </div>
                 <div className="form-check">
                   <input className="form-check-input" type="radio" name="flexRadioDefault" value='COTIZACIÓN' onChange={handleChangeType}/>
-                  <label className="form-check-label" for="flexRadioDefault2">
+                  <label className="form-check-label" htmlFor="flexRadioDefault2">
                     COTIZACIÓN
                   </label>
                 </div>
-                <DivSelect icon='fa-user' value={usuario_id} required='required' className='form-select' options={usuarios} sel='nombre_completo' handleChange={(e)=>setUsuario_id(e.target.value)}/>
-                <DivSelect icon='fa-tag' value={estado_id} required='required' className='form-select' options={estados} sel='estado' handleChange={(e)=>setEstado_id(e.target.value)}/>
-                <div className='text-center'>--------------------------------------------------------------</div>
-                <DivSelect icon='fa-hammer' value={producto_id} required='' className='form-select' options={productos} sel='nombre_producto' sel2='precio' separator=' - $' handleChange={(e)=>setProducto_id(e.target.value)}/>
-                <DivInput icon='fa-boxes' type='number' value={cantidad} required='' className='form-control' placeholder='Cantidad' handleChange={(e)=>setCantidad(e.target.value)}/>
-                <button className='btn btn-success mt-3' type='button' onClick={saveDetail}>Añadir Producto</button>
-                <button className='btn btn-success mt-3' type='button' onClick={save}>Crear Orden</button>
+                <DivSelect icon='fa-user' value={usuario_id} required={required} className='form-select' options={usuarios} sel='nombre_completo' handleChange={(e)=>setUsuario_id(e.target.value)}/>
+                <DivSelect icon='fa-tag' value={estado_id} required={required} className='form-select' options={estados} sel='estado' handleChange={(e)=>setEstado_id(e.target.value)}/>
+                <div className="card border border-danger">
+                  <div className="card-header bg-danger text-white border border-danger">
+                    AÑADIR PRODUCTO
+                  </div>
+                  <div className="card-body">
+                    <DivSelect icon='fa-hammer' value={producto_id} required='' className='form-select' options={productos} sel='nombre_producto' sel2='precio' separator=' - $' handleChange={(e)=>setProducto_id(e.target.value)}/>
+                    <DivInput icon='fa-boxes' type='number' value={cantidad} required='' className='form-control' placeholder='Cantidad' handleChange={(e)=>setCantidad(e.target.value)}/>
+                    <button className='btn btn-success' type='button' onClick={saveDetail}>------ Añadir Producto ------</button>
+                  </div>
+                </div>
+                <DivTable col='10' off='1' classLoad='' classTable='m-4'>
+                  <table className='table table-bordered'>
+                    <thead>
+                      <tr>
+                        <th>Cantidad</th>
+                        <th>Producto</th>
+                        <th>Precio unitario</th>
+                        <th>Precio total</th>
+                        <th>Eliminar</th>
+                      </tr>
+                    </thead>
+                    <tbody className='table-group-divider'>
+                      {products_List.map((row, index) => (
+                        <tr key={index+1}>
+                          <td>{row.quantity}</td>
+                          <td>{row.product_name}</td>
+                          <td>{row.product_price}</td>
+                          <td>{row.product_price * row.quantity}</td>
+                          <td>
+                            <button className='btn btn-danger' type='button' onClick={()=>deleteFromLists(index)}>
+                              <i className='fa-solid fa-trash'/>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colSpan='3'>Total</th>
+                        <th>$ {calculateTotal()}</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  <div className='text-center'>--------------------------------------------------------------</div>
+                  <div className='text-center'>Total items: {detalle_venta.length}</div>
+                </DivTable>
+                <button className='btn btn-success mt-3' type='submit'>Crear Orden</button>
               </form>
             </div>
           </div>
-          <DivTable col='10' off='1' classLoad='' classTable=''>
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-              </tr>
-            </thead>
-            <tbody>
-              {detalle_venta.map((det, index) => (
-                <tr key={index+1}>
-                  <td>{det.productos_id}</td>
-                  <td>{det.cantidad}</td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan='2' className='text-center'>
-                  <button className='btn btn-primary' type='submit'>Guardar</button>
-                </td>
-              </tr>
-            </tfoot>
-            <div className='text-center'>--------------------------------------------------------------</div>
-            <div className='text-center'>Total: {detalle_venta.length}</div>
-          </DivTable>
         </div>
       </div>
     </div>

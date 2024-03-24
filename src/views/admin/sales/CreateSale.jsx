@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import SaleForm from '../../../components/SaleForm'
 
 const CreateSale = () => {
 
   return (
-    <SaleForm id={null} title='Crear Venta'/>
+    <SaleForm title='CREAR ORDEN'/>
   )
 }
 

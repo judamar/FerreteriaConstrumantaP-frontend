@@ -38,7 +38,7 @@ const Sales = () => {
 
   return (
     <div className='container-fluid'>
-      <h1 className='text-center' >VENTAS</h1>
+      <h1 className='text-center' >VENTAS Y COTIZACIONES</h1>
       <DivSearch placeholder='Buscar venta por cliente' handleChange={handleSearchChange} value={searchTerm} handleSearchSubmit={handleSearchSubmit}/>
       <DivAdd>
         <Link to='crear' className='btn btn-success'>
@@ -78,6 +78,11 @@ const Sales = () => {
                 <td>
                   <Link to={`/ventas/factura/${row.venta_id}` } className='btn btn-primary' target='_blank' rel='noreferrer noopener'>
                     <i className="fa-solid fa-eye"/>
+                  </Link>
+                </td>
+                <td>
+                  <Link to={`/ventas/editar/${row.venta_id}` } className='btn btn-warning'>
+                    <i className="fa-solid fa-pen-to-square"/>
                   </Link>
                 </td>
                 <td>
