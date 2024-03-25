@@ -20,30 +20,14 @@ const SaleForm = (params) => {
   const [cantidad, setCantidad] = useState('')
 
   const [required, setRequired] = useState('required')
-  const [disabled, setDisabled] = useState('disabled')
 
   const NameInput = useRef()
-  let method = 'POST'
-  let url = '/ventas'
-  let redirect = ''
 
   useEffect(() => {
-    getSale()
     getUsuarios()
     getEstados()
     getProductos()
   }, [])
-
-  const getSale = async () => {
-    if (params.id !== null) {
-      const res = await sendRequest('GET', '', `/ventas/${params.id}`, '')
-      setUsuario_id(res[0].data.usuario_id)
-      setEstado_id(res[0].data.estado_venta_id)
-      setTipo(res[0].data.tipo)
-      setRequired('')
-
-    }
-  }
 
   const getUsuarios = async () => {
     const res = await sendRequest('GET', '', '/usuarios', '')
@@ -81,25 +65,16 @@ const SaleForm = (params) => {
 
   const saveSale = async (e) => {
     e.preventDefault()
-    if (params.id !== null) {
-      method = 'PUT'
-      url = `/ventas/${params.id}`
-      redirect = '/'
-    }
     const bodySale = {
       usuarios_id: usuario_id,
       estados_ventas_id: estado_id,
       tipo: tipo
     }
-    const res = await sendRequest(method, bodySale, url, redirect)
+    const res = await sendRequest('POST', bodySale, '/ventas', '')
     if (res.status === 'SUCCESS') {
+      console.log(res)
       const insertId = res.data.insertId
       setVenta_id(insertId)
-      if (method === 'PUT') {
-        setUsuario_id('')
-        setEstado_id('')
-        setTipo('')
-      }
     }
   }
 
@@ -114,14 +89,12 @@ const SaleForm = (params) => {
     const res = await sendRequest('GET', '', `/productos/id/${producto_id}`, '')
     if (res.status === 'SUCCESS') {
       const producto = res.data
-      console.log(producto)
       const productsList = {
         product_name: producto[0].nombre_producto,
         product_price: producto[0].precio,
         quantity: cantidad
       }
       setProducts_List([...products_List, productsList])
-      console.log(products_List)
     }
 
     setDetalle_venta([...detalle_venta, bodyDetail])
@@ -131,11 +104,12 @@ const SaleForm = (params) => {
 
   const save = async (e) => {
     e.preventDefault()
-    saveSale(e)
-    setTimeout(5000)
+    await saveSale(e)
+    console.log(venta_id)
+    setTimeout(1000)
     Promise.all(detalle_venta.map(async (item) => {      
       item.ventas_id = venta_id
-      await sendRequest('POST', item, '/detalles_ventas', '')
+      await sendRequest('POST', item, '/detalles_ventas', '/ventas')
     }))
     clear()
   }
@@ -153,6 +127,7 @@ const SaleForm = (params) => {
 
   return (
     <div className='container-fluid'>
+      <h1 className='text-center' >CREAR ORDEN</h1>
       <div className="row mt-5">
         <div className="col-md-6 offset-md-3">
           <div className="card border border-danger">

@@ -162,7 +162,7 @@ const Reservations = () => {
       <DivAdd>
         <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalReservas' onClick={()=> openModal(1)}>
           <i className='fa-solid fa-circle-plus'/>
-          Registrar Proveedor
+          Registrar Reserva
         </button>
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
