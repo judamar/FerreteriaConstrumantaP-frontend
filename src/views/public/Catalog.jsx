@@ -1,29 +1,30 @@
-import React, {useState, useState, useRef} from 'react'
+import React, {useState, useEffect} from 'react'
 import ProductCard from '../../components/ProductCard'
 import { sendRequest } from '../../functions'
 
 const Catalog = () => {
   const [products, setProducts] = useState([])
-  const [search, setSearch] = useState('')
-  const [sort, setSort] = useState('')
+
+  useEffect(() => {
+    getProducts()
+    console.log(products)
+  }, [])
 
   const getProducts = async () => {
-    const response = await sendRequest('GET', '/products')
-    setProducts(response)
+    const res = await sendRequest('GET', '', '/productos', '')
+    setProducts(res.data)
   }
-
-  const searchProducts = async () => {
-    const response = await sendRequest('GET', `/products?search=${search}`)
-    setProducts(response)
-  }
-
-  const sortProducts = async () => {
-    
 
   return (
-    products.map(product => (
-      <ProductCard urlImg={product.urlImg} />
-    ))
+    <div className="container">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {products.map((product) => (
+          <div key={product.id} className="col">
+            <ProductCard product={product} />
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 

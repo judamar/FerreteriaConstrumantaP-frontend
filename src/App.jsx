@@ -16,8 +16,8 @@ import ReservationStatuses from './views/admin/ReservationStatuses.jsx'
 import Reservations from './views/admin/Reservations.jsx'
 import Sales from './views/admin/sales/index.jsx'
 import CreateSale from './views/admin/sales/CreateSale.jsx'
-import EditSale from './views/admin/sales/EditSale.jsx'
 import InvoiceTemplate from './utils/InvoiceTemplate.jsx'
+import Catalog from './views/public/Catalog.jsx'
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route element={<ProtectedRoutes/>}>
-            <Route path="/" element={<h1>Home</h1>}/>
+            <Route path="/" element={<Catalog/>}/>
             <Route path='/usuarios' element={<Users/>}/>
             <Route path='/productos' element={<Products/>}/>
             <Route path='/categorias' element={<Categories/>}/>
@@ -40,7 +40,6 @@ function App() {
             <Route path='/ventas' element={<Sales/>}/>
             <Route path='/ventas/factura/:id' element={<InvoiceTemplate/>}/>
             <Route path='/ventas/crear' element={<CreateSale/>}/>
-            <Route path='/ventas/editar/:id' element={<EditSale/>}/>
             <Route path='/proveedores' element={<Providers/>}/>
             <Route path='/sugerencias' element={<Sugerencias/>}/>
           </Route>

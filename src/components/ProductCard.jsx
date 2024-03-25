@@ -1,17 +1,17 @@
 import React from 'react'
 
-const ProductCard = ({urlImg, name, desc, price, category, stock}) => {
+const ProductCard = ({product}) => {
   return (
-    <div className="card" style="width: 18rem;">
-      <img src={urlImg} className="card-img-top" alt='Imagen del producto'/>
+    <div className="card m-3" style={{ width: '16rem' }}>
+      <img src={product.url_imagen} className="card-img-top" alt='Imagen del producto' style={{'height':'180px'}}/>
       <div className="card-body">
-        <h5 className="card-title">{name}</h5>
-        <p className="card-text">{stock}</p>
-        <p className="card-text">{desc}</p>
-        <p className="card-text">{price}</p>
-        <p className="card-text">{category}</p>
+        <h5 className="card-title"><strong>{product.nombre_producto}</strong></h5>
+        <p className="card-text"><strong>Cantidad:</strong> {product.cantidad}</p>
+        <p className="card-text">{product.descripcion}</p>
+        <p className="card-text"><strong>Precio: </strong>${product.precio.toFixed(2)}</p>
+        <p className="card-text"><strong>Categoria: </strong>{product.categoria}</p>
       </div>
-</div>
+    </div>
   )
 }
 
