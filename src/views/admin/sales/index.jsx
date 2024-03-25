@@ -36,6 +36,14 @@ const Sales = () => {
     confirmation(name, `/ventas/${id}`, '/ventas')
   }
 
+  const calculateTotalSales = () => {
+    let total = 0
+    ventas.forEach((venta) => {
+      total += venta.total_venta
+    });
+    return total.toFixed(2)
+  }
+
   return (
     <div className='container-fluid'>
       <h1 className='text-center' >VENTAS Y COTIZACIONES</h1>
@@ -93,6 +101,13 @@ const Sales = () => {
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <th colSpan='8'>Total</th>
+              <th>$ {calculateTotalSales()}</th>
+              <th colSpan='3' /> 
+            </tr>
+          </tfoot>
         </table>
       </DivTable>
     </div>
