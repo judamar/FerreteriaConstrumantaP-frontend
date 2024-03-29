@@ -27,21 +27,21 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path="/catalogo" element={<Catalog/>}/>
           <Route element={<ProtectedRoutes/>}>
-            <Route path="/" element={<Catalog/>}/>
-            <Route path='/usuarios' element={<Users/>}/>
-            <Route path='/productos' element={<Products/>}/>
-            <Route path='/categorias' element={<Categories/>}/>
-            <Route path='/herramientas' element={<Tools/>}/>
-            <Route path='/estados_herramientas' element={<ToolsStatuses/>}/>
-            <Route path='/estados_reservas' element={<ReservationStatuses/>}/>
-            <Route path='/reservas' element={<Reservations/>}/>
-            <Route path='/estados_ventas' element={<SalesStatuses/>}/>
-            <Route path='/ventas' element={<Sales/>}/>
-            <Route path='/ventas/factura/:id' element={<InvoiceTemplate/>}/>
-            <Route path='/ventas/crear' element={<CreateSale/>}/>
-            <Route path='/proveedores' element={<Providers/>}/>
-            <Route path='/sugerencias' element={<Sugerencias/>}/>
+            <Route path='/admin/usuarios' element={<Users/>}/>
+            <Route path='/admin/productos' element={<Products/>}/>
+            <Route path='/admin/categorias' element={<Categories/>}/>
+            <Route path='/admin/herramientas' element={<Tools/>}/>
+            <Route path='/admin/estados_herramientas' element={<ToolsStatuses/>}/>
+            <Route path='/admin/estados_reservas' element={<ReservationStatuses/>}/>
+            <Route path='/admin/reservas' element={<Reservations/>}/>
+            <Route path='/admin/estados_ventas' element={<SalesStatuses/>}/>
+            <Route path='/admin/ventas' element={<Sales/>}/>
+            <Route path='/admin/ventas/factura/:id' element={<InvoiceTemplate/>}/>
+            <Route path='/admin/ventas/crear' element={<CreateSale/>}/>
+            <Route path='/admin/proveedores' element={<Providers/>}/>
+            <Route path='/admin/sugerencias' element={<Sugerencias/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
