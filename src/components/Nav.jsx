@@ -19,7 +19,7 @@ const NavbarComponent = () => {
           <span className="navbar-toggler-icon" />
         </button>
       </div>
-      { storage.get('authUser') ? (
+      { storage.get('authUser') && storage.get('authToken') ? (
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mx-auto mb-2">
             <li className='nav-item px-lg-5 h4'>
