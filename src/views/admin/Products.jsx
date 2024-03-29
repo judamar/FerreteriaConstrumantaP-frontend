@@ -16,7 +16,7 @@ const Products = () => {
   const [descripcion, setDescripcion] = useState('')
   const [precio, setPrecio] = useState('')
   const [cantidad, setCantidad] = useState('')
-  const [categoria_id, setCategoria_id] = useState('')
+  const [categoria_id, setCategoria_id] = useState(0)
 
   const [categorias, setCategorias] = useState([])
   
@@ -179,7 +179,7 @@ const Products = () => {
                 <td>{`$${row.precio}`}</td>
                 <td>{`$${row.precio * row.cantidad}`}</td>
                 <td>
-                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProductosUpdate' onClick={()=> openModal(3, row.id, row.nombre_producto, row.marca, row.descripcion, row.precio, row.cantidad, row.categoria)}>
+                  <button type='button' className='btn btn-warning' data-bs-toggle='modal' data-bs-target='#modalProductosUpdate' onClick={()=> openModal(3, row.id, row.nombre_producto, row.marca, row.descripcion, row.precio, row.cantidad, row.categoria_id)}>
                     <i className='fa-solid fa-pen-to-square'/>
                   </button>
                 </td>
@@ -205,7 +205,7 @@ const Products = () => {
           <DivInput type='text' icon='fa-file-lines' value={descripcion} className='form-control' placeholder='Descripcion' required='required' handleChange={(e)=>setDescripcion(e.target.value)}/>
           <DivInput type='number' icon='fa-dollar-sign' value={precio} className='form-control' placeholder='Precio' required='required' handleChange={(e)=>setPrecio(e.target.value)}/>
           <DivInput type='number' icon='fa-box' value={cantidad} className='form-control' placeholder='Cantidad' required='required' handleChange={(e)=>setCantidad(e.target.value)}/>
-          <DivSelect icon='fa-tag' value={categoria_id} required='required' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
+          <DivSelect icon='fa-tag' value={categoria_id} required='required' placeholder='Seleccionar categoría' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
           <form encType='multipart/form-data' className='input-group mb-3'>
             <span className='input-group-text'>
               <i className='fa-solid fa-image'/>
@@ -229,7 +229,7 @@ const Products = () => {
           <DivInput type='text' icon='fa-file-lines' value={descripcion} className='form-control' placeholder='Descripcion' required='required' handleChange={(e)=>setDescripcion(e.target.value)}/>
           <DivInput type='number' icon='fa-dollar-sign' value={precio} className='form-control' placeholder='Precio' required='required' handleChange={(e)=>setPrecio(e.target.value)}/>
           <DivInput type='number' icon='fa-box' value={cantidad} className='form-control' placeholder='Cantidad' required='required' handleChange={(e)=>setCantidad(e.target.value)}/>
-          <DivSelect icon='fa-tag' value={categoria_id} required='required' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
+          <DivSelect icon='fa-tag' value={categoria_id} required='required' placeholder='Seleccionar categoría' className='form-select' options={categorias} sel='categoria' handleChange={(e)=>setCategoria_id(e.target.value)}/>
           <div className='d-grid col-10 mx-auto'>
             {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
             <button className='btn btn-success' onClick={save}>
