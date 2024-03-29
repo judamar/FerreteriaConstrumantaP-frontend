@@ -4,8 +4,8 @@ import storage from '../storage/storage.jsx'
 
 const ProtectedRoutes = ({ children }) => {
   const authUser = storage.get('authUser')
-  if (!authUser) {
-    return <Navigate to="/login" />
+  if (!authUser || authUser.esAdmin !== 1) {
+    return <Navigate to="/catalogo" />
   }
   return <Outlet/>
 }

@@ -6,8 +6,11 @@ const NavbarComponent = () => {
   const logout = () => {
     storage.delete('authToken')
     storage.delete('authUser')
-    go('/login')
-  } 
+    go('/catalogo')
+  }
+
+  const authUser = storage.get('authUser')
+
   return (
     <nav className="navbar navbar-expand-lg navbar-white bg-danger">
       <div className="container-fluid">
@@ -19,7 +22,7 @@ const NavbarComponent = () => {
           <span className="navbar-toggler-icon" />
         </button>
       </div>
-      { storage.get('authUser') && storage.get('authToken') ? (
+      { authUser && authUser.esAdmin === 1 ? (
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mx-auto mb-2">
             <li className='nav-item px-lg-5 h4'>
@@ -32,16 +35,16 @@ const NavbarComponent = () => {
               </a>
               <ul className="dropdown-menu">
                 <li className='px-lg-3'>
-                  <Link to='/productos' className='dropdown-item'>Productos</Link>
+                  <Link to='/admin/productos' className='dropdown-item'>Productos</Link>
                 </li>
                 <li className='px-lg-3'>
-                  <Link to='/categorias' className='dropdown-item'>Categorias</Link>
+                  <Link to='/admin/categorias' className='dropdown-item'>Categorias</Link>
                 </li>
                 <li className='px-lg-3'>
-                  <Link to='/herramientas' className='dropdown-item'>Herramientas</Link>
+                  <Link to='/admin/herramientas' className='dropdown-item'>Herramientas</Link>
                 </li>
                 <li className='px-lg-3'>
-                  <Link to='/estados_herramientas' className='dropdown-item'>Estados Herramientas</Link>
+                  <Link to='/admin/estados_herramientas' className='dropdown-item'>Estados Herramientas</Link>
                 </li>
               </ul>
             </li>
@@ -52,27 +55,27 @@ const NavbarComponent = () => {
               </a>
               <ul className="dropdown-menu">
                 <li className='px-lg-3'>
-                  <Link to='/estados_ventas' className='dropdown-item'>Estados ventas</Link>
+                  <Link to='/admin/estados_ventas' className='dropdown-item'>Estados ventas</Link>
                 </li>
                 <li className='px-lg-3'>
-                  <Link to='/ventas' className='dropdown-item'>Ventas</Link>
+                  <Link to='/admin/ventas' className='dropdown-item'>Ventas</Link>
                 </li>
                 <li className='px-lg-3'>
-                  <Link to='/estados_reservas' className='dropdown-item'>Estados reservas</Link>
+                  <Link to='/admin/estados_reservas' className='dropdown-item'>Estados reservas</Link>
                 </li>
                 <li className='px-lg-3'>
-                  <Link to='/reservas' className='dropdown-item'>Reservas</Link>
+                  <Link to='/admin/reservas' className='dropdown-item'>Reservas</Link>
                 </li>
               </ul>
             </li>
             <li className='nav-item px-lg-5'>
-              <Link to='/usuarios' className='nav-link text-white'>Usuarios</Link> 
+              <Link to='/admin/usuarios' className='nav-link text-white'>Usuarios</Link> 
             </li>
             <li className='nav-item px-lg-5'>
-              <Link to='/proveedores' className='nav-link text-white'>Proveedores</Link>
+              <Link to='/admin/proveedores' className='nav-link text-white'>Proveedores</Link>
             </li>
             <li className='nav-item px-lg-5'>
-              <Link to='/sugerencias' className='nav-link text-white'>Sugerencias</Link>
+              <Link to='/admin/sugerencias' className='nav-link text-white'>Sugerencias</Link>
             </li>
           </ul>
           <ul className='navbar-nav mx-auto mb-2'>
@@ -81,7 +84,46 @@ const NavbarComponent = () => {
             </li>
           </ul>
         </div>
-        ) : ''}
+        ) : (
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav mx-auto mb-2">
+              <li className='nav-item px-lg-5'>
+                <Link to='/catalogo' className='nav-link text-white'>Catalogo</Link>
+              </li>
+              <li className='nav-item px-lg-5'>
+                <Link to='/sugerencias' className='nav-link text-white'>Sugerencias</Link>
+              </li>
+              <li className='nav-item px-lg-5'>
+                <Link to='/contacto' className='nav-link text-white'>Contacto</Link>
+              </li>
+              <li className='nav-item px-lg-5'>
+                <Link to='/terminos' className='nav-link text-white'>Términos y Condiciones</Link>
+              </li>
+              <li className='nav-item px-lg-5'>
+                <Link to='/privacidad' className='nav-link text-white'>Política de Privacidad</Link>
+              </li>
+              <li className='nav-item px-lg-5'>
+                <Link to='/ayuda' className='nav-link text-white'>Ayuda</Link>
+              </li>
+              { !authUser ? (
+                <ul className="navbar-nav mx-auto mb-2">
+                  <li className='nav-item px-lg-5'>
+                    <Link to='/login' className='nav-link text-white'>Iniciar Sesion</Link>
+                  </li>
+                  <li className='nav-item px-lg-5'>
+                    <Link to='/register' className='nav-link text-white'>Registrarse</Link>
+                  </li>
+                </ul>
+              ) : (
+                <ul className='navbar-nav mx-auto mb-2'>
+                  <li className='nav-item px-lg-5 h4'>
+                    <button type='button' className='btn btn-warning' onClick={logout}>Salir</button>
+                  </li>
+                </ul>
+              )}
+            </ul>
+          </div>
+        )}
     </nav>
   )
 }
