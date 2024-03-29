@@ -16,7 +16,11 @@ const Login = () => {
     if (res && res.status === 'SUCCESS' && res.data.token) {
       storage.set('authToken', res.data.token)
       storage.set('authUser', res.data.user)
-      go('/')
+      if (res.data.user.esAdmin === 1) {
+        go('/admin/productos')
+      } else if (res.data.user.esAdmin === 0) {
+        go('/catalogo')
+      }
     }
   }
 
