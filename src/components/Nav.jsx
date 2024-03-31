@@ -91,10 +91,10 @@ const NavbarComponent = () => {
                 <Link to='/catalogo' className='nav-link text-white'>Catalogo</Link>
               </li>
               <li className='nav-item px-lg-5'>
-                <Link to='/sugerencias' className='nav-link text-white'>Sugerencias</Link>
+                <Link to='/herramientas' className='nav-link text-white'>Herramientas</Link>
               </li>
               <li className='nav-item px-lg-5'>
-                <Link to='/contacto' className='nav-link text-white'>Contacto</Link>
+                <Link to='/sugerencias' className='nav-link text-white'>Sugerencias</Link>
               </li>
               <li className='nav-item px-lg-5'>
                 <Link to='/terminos' className='nav-link text-white'>Términos y Condiciones</Link>

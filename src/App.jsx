@@ -18,6 +18,7 @@ import Sales from './views/admin/sales/index.jsx'
 import CreateSale from './views/admin/sales/CreateSale.jsx'
 import InvoiceTemplate from './utils/InvoiceTemplate.jsx'
 import Catalog from './views/public/Catalog.jsx'
+import ToolsCatalog from './views/public/ToolsCatalog.jsx'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/catalogo" element={<Catalog/>}/>
+          <Route path="/herramientas" element={<ToolsCatalog/>}/>
           <Route element={<ProtectedRoutes/>}>
             <Route path='/admin/usuarios' element={<Users/>}/>
             <Route path='/admin/productos' element={<Products/>}/>
