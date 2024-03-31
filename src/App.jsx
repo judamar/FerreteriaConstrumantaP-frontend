@@ -19,6 +19,8 @@ import CreateSale from './views/admin/sales/CreateSale.jsx'
 import InvoiceTemplate from './utils/InvoiceTemplate.jsx'
 import Catalog from './views/public/Catalog.jsx'
 import ToolsCatalog from './views/public/ToolsCatalog.jsx'
+import About from './views/public/About.jsx'
+import TermsAndPrivacy from './views/public/TYC.jsx'
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
           <Route path="/register" element={<Register/>}/>
           <Route path="/catalogo" element={<Catalog/>}/>
           <Route path="/herramientas" element={<ToolsCatalog/>}/>
+          <Route path="/acerca_de" element={<About/>}/>
+          <Route path="/terminos_y_condiciones" element={<TermsAndPrivacy/>}/>
           <Route element={<ProtectedRoutes/>}>
             <Route path='/admin/usuarios' element={<Users/>}/>
             <Route path='/admin/productos' element={<Products/>}/>

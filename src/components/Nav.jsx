@@ -97,13 +97,10 @@ const NavbarComponent = () => {
                 <Link to='/sugerencias' className='nav-link text-white'>Sugerencias</Link>
               </li>
               <li className='nav-item px-lg-5'>
-                <Link to='/terminos' className='nav-link text-white'>Términos y Condiciones</Link>
+                <Link to='/acerca_de' className='nav-link text-white'>Acerca de</Link>
               </li>
               <li className='nav-item px-lg-5'>
-                <Link to='/privacidad' className='nav-link text-white'>Política de Privacidad</Link>
-              </li>
-              <li className='nav-item px-lg-5'>
-                <Link to='/ayuda' className='nav-link text-white'>Ayuda</Link>
+                <Link to='/terminos_y_condiciones' className='nav-link text-white'>Términos y condiciones</Link>
               </li>
               { !authUser ? (
                 <ul className="navbar-nav mx-auto mb-2">
