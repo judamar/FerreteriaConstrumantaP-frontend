@@ -80,7 +80,7 @@ const Products = () => {
     setEstados(res.data)
   }
 
-  const openModal = (op, id, n, d, p, c) => {
+  const openModal = (op, id, e, n, d, p, c) => {
     clear()
     setTimeout( ()=> NameInput.current.focus(), 600)
     setOperation(op)
@@ -97,6 +97,7 @@ const Products = () => {
       setCantidad(c)
     } else if (op === 4) {
       setTitle('Cambiar estado')
+      setEstados_id(e)
     }
   }
 
@@ -134,14 +135,11 @@ const Products = () => {
         estado: estados_id
       }
     }
-
-
     if (operation === 3 || operation === 4) {
       body = bodyform
     } else {
       body = formData
     }
-    console.log(body)
     const res = await sendRequest(method, body, url, '', true, isFormData)
     if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
       close.current.click()
@@ -163,9 +161,6 @@ const Products = () => {
           <i className='fa-solid fa-circle-plus'/>
           Añadir Herramienta - Maquina
         </button>
-      </DivAdd>
-      <DivAdd>
-        
       </DivAdd>
       <DivTable col='10' off='1' classLoad={classLoad} classTable={classTable}>
         <table className='table table-bordered'>
@@ -189,7 +184,7 @@ const Products = () => {
                   </button>
                 </td>
                 <td>
-                  <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalHerramientasState' onClick={()=> openModal(4, row.id)}>
+                  <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalHerramientasState' onClick={()=> openModal(4, row.id, row.estado_id)}>
                     <i className='fa-solid fa-tag'/>
                   </button>
                 </td>
