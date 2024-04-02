@@ -21,12 +21,15 @@ import Catalog from './views/public/Catalog.jsx'
 import ToolsCatalog from './views/public/ToolsCatalog.jsx'
 import About from './views/public/About.jsx'
 import TermsAndPrivacy from './views/public/TYC.jsx'
+import PublicSuggestion from './views/public/PublicSuggestion.jsx'
+import WhatsAppIn from './components/WhatsAppIn.jsx'
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <NavbarComponent/>
+        <WhatsAppIn/>
         <Routes>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
@@ -34,6 +37,7 @@ function App() {
           <Route path="/herramientas" element={<ToolsCatalog/>}/>
           <Route path="/acerca_de" element={<About/>}/>
           <Route path="/terminos_y_condiciones" element={<TermsAndPrivacy/>}/>
+          <Route path="/sugerencias" element={<PublicSuggestion/>}/>
           <Route element={<ProtectedRoutes/>}>
             <Route path='/admin/usuarios' element={<Users/>}/>
             <Route path='/admin/productos' element={<Products/>}/>
