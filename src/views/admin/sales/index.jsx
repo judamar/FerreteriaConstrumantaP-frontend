@@ -84,13 +84,8 @@ const Sales = () => {
                 <td>{row.estado_venta}</td>
                 <td>$ {row.total_venta.toFixed(2)}</td>
                 <td>
-                  <Link to={`/ventas/factura/${row.venta_id}` } className='btn btn-primary' target='_blank' rel='noreferrer noopener'>
+                  <Link to={`/admin/ventas/factura/${row.venta_id}` } className='btn btn-primary' target='_blank' rel='noreferrer noopener'>
                     <i className="fa-solid fa-eye"/>
-                  </Link>
-                </td>
-                <td>
-                  <Link to={`/ventas/editar/${row.venta_id}` } className='btn btn-warning'>
-                    <i className="fa-solid fa-pen-to-square"/>
                   </Link>
                 </td>
                 <td>
