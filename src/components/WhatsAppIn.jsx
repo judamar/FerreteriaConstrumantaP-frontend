@@ -3,7 +3,7 @@ import { FloatingWhatsApp } from 'react-floating-whatsapp'
 
 const WhatsAppIn = () => {
   return (
-    <FloatingWhatsApp phoneNumber={process.env.FERRE_PHONE_NUM} accountName='Construmanta P' avatar='./logo.ico' statusMessage='Responde aproximadamente en 1 hora.' chatMessage='Hola, ¿en qué puedo ayudarte?' placeholder='Escribe un mensaje.'/>
+    <FloatingWhatsApp phoneNumber={import.meta.env.FERRE_PHONE_NUM} accountName='Construmanta P' avatar='./logo.ico' statusMessage='Responde aproximadamente en 1 hora.' chatMessage='Hola, ¿en qué puedo ayudarte?' placeholder='Escribe un mensaje.'/>
   )
 }
 
