@@ -1,7 +1,7 @@
 import React from 'react'
 
 const WhatsAppButton = ({producto}) => {
-  const phoneNumber = '+573197588522'
+  const phoneNumber = import.meta.env.VITE_FERRE_PHONE_NUM
   const message = `Hola, ¿cómo estás?\nQuisiera obtener información sobre este producto:\n*${producto}*. \nGracias`
 
   const handleClick = () => {
