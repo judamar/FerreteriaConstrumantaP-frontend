@@ -17,7 +17,6 @@ const Register = () => {
   const register = async (e) => {
     e.preventDefault()
     const form = {cedula, nombre_completo, correo_electronico, telefono, direccion, password}
-    console.log(form)
     const res = await sendRequest('POST', form, '/usuarios/signup', '', false)
     if (res && res.status === 'SUCCESS') {
       go('/login')
