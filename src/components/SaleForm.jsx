@@ -70,17 +70,12 @@ const SaleForm = (params) => {
       estados_ventas_id: estado_id,
       tipo: tipo
     }
-    try {
-      const res = await sendRequest('POST', bodySale, '/ventas', '');
-      if (res.status === 'SUCCESS') {
-        const insertId = res.data.insertId;
-        console.log('Insert ID:', insertId);
-        setVenta_id(insertId); // Actualiza venta_id con el insertId obtenido
-      } else {
-        console.error('Error al crear la venta:', res.error);
-      }
-    } catch (error) {
-      console.error('Error al procesar la solicitud:', error);
+    const res = await sendRequest('POST', bodySale, '/ventas', '')
+    if (res.status === 'SUCCESS') {
+      const insertId = res.data.insertId
+      console.log(insertId)
+      setVenta_id(insertId)
+      console.log(venta_id)
     }
   }
 
