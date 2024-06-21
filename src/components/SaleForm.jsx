@@ -5,7 +5,7 @@ import DivTable from './DivTable.jsx'
 import { sendRequest } from '../functions.jsx'
 
 const SaleForm = (params) => {
-  const [venta_id, setVenta_id] = useState(0)
+  const [venta_id, setVenta_id] = useState('')
   const [usuarios, setUsuarios] = useState([])
   const [estados, setEstados] = useState([])
   const [productos, setProductos] = useState([])
@@ -105,9 +105,10 @@ const SaleForm = (params) => {
     e.preventDefault()
     await saveSale(e)
     console.log(venta_id)
-    setTimeout(1000)
-    Promise.all(detalle_venta.map(async (item) => {      
+    detalle_venta.forEach((item) => {
       item.ventas_id = venta_id
+    })
+    Promise.all(detalle_venta.map(async (item) => {
       await sendRequest('POST', item, '/detalles_ventas', '/ventas')
     }))
     clear()
