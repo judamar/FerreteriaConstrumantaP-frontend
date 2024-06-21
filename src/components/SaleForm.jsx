@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import DivInput from './DivInput.jsx'
 import DivSelect from './DivSelect.jsx'
 import DivTable from './DivTable.jsx'
 import { sendRequest } from '../functions.jsx'
 
 const SaleForm = (params) => {
-  const [venta_id, setVenta_id] = useState('')
   const [usuarios, setUsuarios] = useState([])
   const [estados, setEstados] = useState([])
   const [productos, setProductos] = useState([])
@@ -21,7 +20,7 @@ const SaleForm = (params) => {
 
   const [required, setRequired] = useState('required')
 
-  const NameInput = useRef()
+  let ventaId = 0
 
   useEffect(() => {
     getUsuarios()
@@ -71,16 +70,13 @@ const SaleForm = (params) => {
       tipo: tipo
     }
     const res = await sendRequest('POST', bodySale, '/ventas', '')
-    if (res.status === 'SUCCESS') {
-      setVenta_id(res.data.insertId)
-      console.log(venta_id)
-    }
+    ventaId = res.data.insertId
   }
 
   const saveDetail = async (e) => {
     e.preventDefault()
     const bodyDetail = {
-      ventas_id: venta_id,
+      ventas_id: ventaId,
       productos_id: producto_id,
       cantidad_vendida: cantidad
     }
@@ -104,9 +100,9 @@ const SaleForm = (params) => {
   const save = async (e) => {
     e.preventDefault()
     await saveSale(e)
-    console.log(detalle_venta)
+    setTimeout(5000)
     Promise.all(detalle_venta.map(async (item) => {
-      item.ventas_id = venta_id
+      item.ventas_id = ventaId
       await sendRequest('POST', item, '/detalles_ventas', '/ventas')
     }))
     clear()
@@ -116,7 +112,6 @@ const SaleForm = (params) => {
     setDetalle_venta([])
     setProducts_List([])
     setProducto_id('')
-    setVenta_id('')
     setCantidad('')
     setUsuario_id('')
     setEstado_id('')
