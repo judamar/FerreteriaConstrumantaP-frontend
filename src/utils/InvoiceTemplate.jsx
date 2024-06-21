@@ -45,11 +45,11 @@ const InvoiceTemplate = () => {
               <div className="col-6">
                 <address>
                   <strong>FERRETERÍA CONSTRUMANTA P</strong><br />
-                  <strong>NIT:</strong> <br />
-                  <strong>Dirección:</strong> <br />
-                  <strong>Ciudad:</strong> <br />
-                  <strong>Teléfono:</strong> <br />
-                  <strong>Correo electrónico:</strong> <br />
+                  <strong>NIT:</strong> {import.meta.env.VITE_FERRE_NIT}<br />
+                  <strong>Dirección:</strong> {import.meta.env.VITE_FERRE_DIR}<br />
+                  <strong>Ciudad:</strong> {import.meta.env.VITE_FERRE_CIUDAD}<br />
+                  <strong>Teléfono:</strong> {import.meta.env.VITE_FERRE_TEL}<br />
+                  <strong>Correo electrónico:</strong> {import.meta.env.VITE_FERRE_EMAIL}<br />
                 </address>
               </div>
               <div className="col-6 text-right">
