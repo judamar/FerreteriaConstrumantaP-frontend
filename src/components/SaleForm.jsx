@@ -72,9 +72,7 @@ const SaleForm = (params) => {
     }
     const res = await sendRequest('POST', bodySale, '/ventas', '')
     if (res.status === 'SUCCESS') {
-      const insertId = res.data.insertId
-      console.log(insertId)
-      setVenta_id(insertId)
+      setVenta_id(req.data.insertId)
       console.log(venta_id)
     }
   }
