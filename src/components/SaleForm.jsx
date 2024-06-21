@@ -5,7 +5,7 @@ import DivTable from './DivTable.jsx'
 import { sendRequest } from '../functions.jsx'
 
 const SaleForm = (params) => {
-  const [venta_id, setVenta_id] = useState('')
+  const [venta_id, setVenta_id] = useState(0)
   const [usuarios, setUsuarios] = useState([])
   const [estados, setEstados] = useState([])
   const [productos, setProductos] = useState([])
