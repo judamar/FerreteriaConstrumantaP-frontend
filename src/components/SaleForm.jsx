@@ -108,6 +108,7 @@ const SaleForm = (params) => {
     detalle_venta.forEach((item) => {
       item.ventas_id = venta_id
     })
+    console.log(detalle_venta)
     Promise.all(detalle_venta.map(async (item) => {
       await sendRequest('POST', item, '/detalles_ventas', '/ventas')
     }))
