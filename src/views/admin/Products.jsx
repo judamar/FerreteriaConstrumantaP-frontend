@@ -63,7 +63,7 @@ const Products = () => {
   }
 
   const deleteProduct = async (id) => {
-    confirmation(id, `/productos/${id}`, '/productos')
+    confirmation(id, `/productos/${id}`, '/admin/productos')
   }
 
   const clear = () => {
