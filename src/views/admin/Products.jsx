@@ -138,7 +138,7 @@ const Products = () => {
     } else {
       body = formData
     }
-    const res = await sendRequest(method, body, url, '', true, isFormData)
+    const res = await sendRequest(method, body, url, '/admin/productos', true, isFormData)
     if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
       close.current.click()
     }
