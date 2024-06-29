@@ -45,11 +45,11 @@ const InvoiceTemplate = () => {
               <div className="col-6">
                 <address>
                   <strong>FERRETERÍA CONSTRUMANTA P</strong><br />
-                  <strong>NIT:</strong> {import.meta.env.VITE_FERRE_NIT}<br />
-                  <strong>Dirección:</strong> {import.meta.env.VITE_FERRE_DIR}<br />
-                  <strong>Ciudad:</strong> {import.meta.env.VITE_FERRE_CIUDAD}<br />
-                  <strong>Teléfono:</strong> {import.meta.env.VITE_FERRE_TEL}<br />
-                  <strong>Correo electrónico:</strong> {import.meta.env.VITE_FERRE_EMAIL}<br />
+                  <strong>NIT: </strong>3096657-1 {import.meta.env.VITE_FERRE_NIT}<br />
+                  <strong>Dirección: </strong>Calle 2 #5-13 {import.meta.env.VITE_FERRE_DIR}<br />
+                  <strong>Ciudad:</strong> Manta, Cundinamarca {import.meta.env.VITE_FERRE_CIUDAD}<br />
+                  <strong>Teléfono:</strong> 3197588522{import.meta.env.VITE_FERRE_TEL}<br />
+                  <strong>Correo electrónico: construmanta@gmail.com</strong> {import.meta.env.VITE_FERRE_EMAIL}<br />
                 </address>
               </div>
               <div className="col-6 text-right">
@@ -95,7 +95,7 @@ const InvoiceTemplate = () => {
                         <td className="text-center"><strong>Precio sin iva</strong></td>
                         <td className="text-center"><strong>Precio</strong></td>
                         <td className="text-center"><strong>Cantidad</strong></td>
-                        <td className="text-right"><strong>Total</strong></td>
+                        <td className="text-end"><strong>Total</strong></td>
                       </tr>
                     </thead>
                     <tbody>
@@ -103,10 +103,10 @@ const InvoiceTemplate = () => {
                         <tr key={producto.id}>
                           <td className="text-center">{index + 1}</td>
                           <td className='text-center'>{producto.producto}</td>
-                          <td className="text-center">${producto.valor_sin_iva.toFixed(2)}</td>
-                          <td className="text-center">${producto.valor_unitario.toFixed(2)}</td>
+                          <td className="text-end">${producto.valor_sin_iva.toLocaleString('es-ES')}</td>
+                          <td className="text-end">${producto.valor_unitario.toLocaleString('es-ES')}</td>
                           <td className="text-center">{producto.cantidad}</td>
-                          <td className="text-right">${producto.valor_total.toFixed(2)}</td>
+                          <td className="text-end">${producto.valor_total.toLocaleString('es-ES')}</td>
                         </tr>
                       ))}
                       <tr key='b'>
@@ -115,7 +115,7 @@ const InvoiceTemplate = () => {
                         <td className="thick-line" />
                         <td className="thick-line" />
                         <td className="thick-line text-center"><strong>Subtotal</strong></td>
-                        <td className="thick-line text-right">${venta.subototal ? venta.subototal.toFixed(2) : '0'}</td>
+                        <td className="thick-line text-right">${venta.subototal ? venta.subototal.toLocaleString('es-ES') : '0'}</td>
                       </tr>
                       <tr key='c'>
                         <td className="no-line" />
@@ -130,8 +130,8 @@ const InvoiceTemplate = () => {
                         <td className="no-line" />
                         <td className="no-line" />
                         <td className="no-line" />
-                        <td className="no-line text-center"><strong>Total</strong></td>
-                        <td className="no-line text-right">${venta.total_venta ? venta.total_venta.toFixed(2) : '0'}</td>
+                        <td className="no-line text-center"><strong>Total:</strong></td>
+                        <td className="no-line text-end">${venta.total_venta ? venta.total_venta.toLocaleString('es-ES') : '0'}</td>
                       </tr>
                     </tbody>
                   </table>
