@@ -34,7 +34,7 @@ const ToolsStatuses = () => {
   }
 
   const deleteStatus = async (name , id) => {
-    confirmation(name, `/estados_herramienta_maquina/${id}`, '/estados_herramientas')
+    confirmation(name, `/estados_herramienta_maquina/${id}`, '/admin/estados_herramientas')
   }
 
   const clear = () => {

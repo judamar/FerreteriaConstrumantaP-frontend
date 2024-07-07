@@ -77,7 +77,7 @@ const Reservations = () => {
   }
 
   const deleteProvider = async (name, id) => {
-    confirmation(name, `/reservas/${id}`, '/reservas')
+    confirmation(name, `/reservas/${id}`, '/admin/reservas')
   }
 
   const clear = () => {

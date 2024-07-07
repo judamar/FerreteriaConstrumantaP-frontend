@@ -103,7 +103,7 @@ const SaleForm = (params) => {
     setTimeout(5000)
     Promise.all(detalle_venta.map(async (item) => {
       item.ventas_id = ventaId
-      await sendRequest('POST', item, '/detalles_ventas', '/ventas')
+      await sendRequest('POST', item, '/detalles_ventas', '/admin/ventas')
     }))
     clear()
   }

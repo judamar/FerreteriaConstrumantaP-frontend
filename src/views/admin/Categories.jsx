@@ -46,7 +46,7 @@ const Categories = () => {
   }
 
   const deleteCategory = async (name , id) => {
-    confirmation(name, `/categorias/${id}`, '/categorias')
+    confirmation(name, `/categorias/${id}`, '/admin/categorias')
   }
 
   const clear = () => {

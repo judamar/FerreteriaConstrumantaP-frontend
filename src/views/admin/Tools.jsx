@@ -62,7 +62,7 @@ const Products = () => {
   }
 
   const deleteProduct = async (id) => {
-    confirmation(id, `/herramientas_maquinas/${id}`, '/herramientas_maquinas')
+    confirmation(id, `/herramientas_maquinas/${id}`, '/admin/herramientas_maquinas')
   }
 
   const clear = () => {

@@ -33,7 +33,7 @@ const Sales = () => {
   }
 
   const deleteSale = async (name, id) => {
-    confirmation(name, `/ventas/${id}`, '/ventas')
+    confirmation(name, `/ventas/${id}`, '/admin/ventas')
   }
 
   const calculateTotalSales = () => {

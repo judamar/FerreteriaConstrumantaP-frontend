@@ -34,7 +34,7 @@ const ReservationStatuses = () => {
   }
 
   const deleteStatus = async (name , id) => {
-    confirmation(name, `/estados_reserva/${id}`, '/estados_reservas')
+    confirmation(name, `/estados_reserva/${id}`, '/admin/estados_reservas')
   }
 
   const clear = () => {

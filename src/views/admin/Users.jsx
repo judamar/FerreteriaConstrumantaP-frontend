@@ -51,7 +51,7 @@ const Users = () => {
   }
 
   const deleteUser = async (name , id) => {
-    confirmation(name, `/usuarios/${id}`, '/usuarios')
+    confirmation(name, `/usuarios/${id}`, '/admin/usuarios')
   }
 
   const clear = () => {

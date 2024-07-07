@@ -34,7 +34,7 @@ const SalesStatuses = () => {
   }
 
   const deleteStatus = async (name , id) => {
-    confirmation(name, `/estados_venta/${id}`, '/estados_ventas')
+    confirmation(name, `/estados_venta/${id}`, '/admin/estados_ventas')
   }
 
   const clear = () => {

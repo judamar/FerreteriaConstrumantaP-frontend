@@ -61,11 +61,11 @@ const Users = () => {
   }
 
   const deleteProvider = async (name, id) => {
-    confirmation(name, `/proveedores/${id}`, '/proveedores')
+    confirmation(name, `/proveedores/${id}`, '/admin/proveedores')
   }
 
   const deleteCategories = async (name, id) => {
-    confirmation(name, `/proveedores_tienen_categorias/${id}`, '/proveedores')
+    confirmation(name, `/proveedores_tienen_categorias/${id}`, '/admin/proveedores')
   }
 
   const clear = () => {
