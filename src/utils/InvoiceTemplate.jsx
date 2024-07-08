@@ -48,7 +48,7 @@ const InvoiceTemplate = () => {
                   <strong>NIT: </strong> {import.meta.env.VITE_FERRE_NIT}<br />
                   <strong>Dirección: </strong> {import.meta.env.VITE_FERRE_DIR}<br />
                   <strong>Ciudad:</strong> {import.meta.env.VITE_FERRE_CIUDAD}<br />
-                  <strong>Teléfono:</strong>{import.meta.env.VITE_FERRE_TEL}<br />
+                  <strong>Teléfono:</strong> {import.meta.env.VITE_FERRE_TEL}<br />
                   <strong>Correo electrónico:</strong> {import.meta.env.VITE_FERRE_EMAIL}<br />
                 </address>
               </div>
