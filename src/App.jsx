@@ -31,6 +31,7 @@ function App() {
         <NavbarComponent/>
         <WhatsAppIn/>
         <Routes>
+          <Route path="/" element={<Catalog/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/catalogo" element={<Catalog/>}/>
