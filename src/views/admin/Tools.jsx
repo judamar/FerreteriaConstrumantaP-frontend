@@ -7,7 +7,7 @@ import DivSearch from '../../components/DivSearch.jsx'
 import Modal from '../../components/Modal.jsx'
 import { confirmation, sendRequest } from '../../functions.jsx'
 
-const Products = () => {
+const Tools = () => {
   const [herramientas, setHerramientas] = useState([])
   const [id, setId] = useState('')
   const [nombre_articulo, setNombre_articulo] = useState('')
@@ -79,7 +79,7 @@ const Products = () => {
     setEstados(res.data)
   }
 
-  const openModal = (op, id, e, n, d, p, c) => {
+  const openModal = (op, id, n, d, p, c, e) => {
     clear()
     setTimeout( ()=> NameInput.current.focus(), 600)
     setOperation(op)
@@ -183,7 +183,7 @@ const Products = () => {
                   </button>
                 </td>
                 <td>
-                  <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalHerramientasState' onClick={()=> openModal(4, row.id, row.estado_id)}>
+                  <button type='button' className='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalHerramientasState' onClick={()=> openModal(4, row.id, row.nombre_articulo, row.descripcion, row.precio_alquiler, row.cantidad_disponible, row.estado_id)}>
                     <i className='fa-solid fa-tag'/>
                   </button>
                 </td>
@@ -272,4 +272,4 @@ const Products = () => {
   )
 }
 
-export default Products
+export default Tools
