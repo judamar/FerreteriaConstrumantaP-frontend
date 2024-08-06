@@ -115,7 +115,7 @@ const InvoiceTemplate = () => {
                         <td className="thick-line" />
                         <td className="thick-line" />
                         <td className="thick-line text-center"><strong>Subtotal</strong></td>
-                        <td className="thick-line text-right">${venta.subototal ? venta.subototal.toLocaleString('es-ES') : '0'}</td>
+                        <td className="thick-line text-end">${venta.subototal ? venta.subototal.toLocaleString('es-ES') : '0'}</td>
                       </tr>
                       <tr key='c'>
                         <td className="no-line" />
@@ -123,7 +123,7 @@ const InvoiceTemplate = () => {
                         <td className="no-line" />
                         <td className="no-line" />
                         <td className="no-line text-center"><strong>IVA ({venta.IVA})</strong></td>
-                        <td className="no-line text-right">${(venta.total_venta - venta.subototal) ? (venta.total_venta - venta.subototal).toFixed(2) : '0'}</td>
+                        <td className="no-line text-end">${(venta.total_venta - venta.subototal) ? (venta.total_venta - venta.subototal).toLocaleString('es-ES') : '0'}</td>
                       </tr>
                       <tr key='d'>
                         <td className="no-line" />
