@@ -62,7 +62,7 @@ const Tools = () => {
   }
 
   const deleteProduct = async (id) => {
-    confirmation(id, `/herramientas_maquinas/${id}`, '/admin/herramientas_maquinas')
+    confirmation(id, `/herramientas_maquinas/${id}`, '/admin/herramientas')
   }
 
   const clear = () => {
@@ -139,6 +139,7 @@ const Tools = () => {
     } else {
       body = formData
     }
+    console.log(body)
     const res = await sendRequest(method, body, url, '', true, isFormData)
     if ((method === 'PUT' || method === 'PATCH') && res.status === 'SUCCESS') {
       close.current.click()
