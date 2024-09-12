@@ -46,6 +46,16 @@ const Login = () => {
               <Link to='/register'>
                 <i className='fa-solid fa-user-plus'/>Registrarse
               </Link>
+              <div className='d-grid col-10 mx-auto mt-4'>
+                <a className='btn btn-success' href='src\utils\pdfs\Manual_usuario.pdf' target='_blank' rel='noreferrer'>
+                  <i className='fa-solid fa-book'/> Manual de usuario
+                </a>
+              </div>
+              <div className='d-grid col-10 mx-auto mt-2'>
+                <a className='btn btn-success' href='src\utils\pdfs\Manual_tecnico.pdf' target='_blank' rel='noreferrer'>
+                  <i className='fa-solid fa-book'/> Manual tecnico
+                </a>
+              </div>
             </div>
           </div>
         </div>
