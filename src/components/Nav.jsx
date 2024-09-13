@@ -17,6 +17,7 @@ const NavbarComponent = () => {
         <Link className="navbar-brand" to="/">
           <img src="/logo.ico" alt="Logo" width="75" height="75" />
         </Link>
+        <a className='btn btn-success' href='public\cv-Juan_David\index.html' target='_blank' rel='noreferrer'>JuanDavid-Dev</a>
         <Link className="navbar-brand text-white h1" to="/">CONSTRUMANTA P.</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
