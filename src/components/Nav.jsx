@@ -17,12 +17,13 @@ const NavbarComponent = () => {
         <Link className="navbar-brand" to="/">
           <img src="/logo.ico" alt="Logo" width="75" height="75" />
         </Link>
-        <a className='btn btn-success' href='public\cv-Juan_David\index.html' target='_blank' rel='noreferrer'>JuanDavid-Dev</a>
+        <a className='btn btn-sm btn-success pl-2' href='public\HV-Juan_David_Martin_Moreno.pdf' target='_blank' rel='noreferrer'>JuanDavid-Dev</a>
         <Link className="navbar-brand text-white h1" to="/">CONSTRUMANTA P.</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
         </button>
       </div>
+      {/* VISTA ADMIN */}
       { authUser && authUser.esAdmin === 1 ? (
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mx-auto mb-2">
@@ -86,6 +87,7 @@ const NavbarComponent = () => {
           </ul>
         </div>
         ) : (
+          // VISTA USUARIO
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav mx-auto mb-2">
               <li className='nav-item px-lg-5'>
