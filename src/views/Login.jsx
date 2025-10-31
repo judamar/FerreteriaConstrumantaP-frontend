@@ -7,6 +7,7 @@ import storage from '../storage/storage.jsx'
 const Login = () => {
   const [cedula, setCedula] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const go = useNavigate()
 
   const login = async (e) => {
@@ -35,7 +36,28 @@ const Login = () => {
             <div className='card-body'>
               <form onSubmit={login}>
                 <DivInput type='number' icon='fa-at' value={cedula} className='form-control' placeholder='Cédula' required='required' handleChange={(e)=> setCedula(e.target.value)}/>
-                <DivInput type='password' icon='fa-key' value={password} className='form-control' placeholder='Contraseña' required='required' handleChange={(e)=> setPassword(e.target.value)}/>
+                <div className="input-group mb-3">
+                  <span className="input-group-text bg-white">
+                    <i className="fa-solid fa-key" />
+                  </span>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    className="form-control"
+                    placeholder="Contraseña"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    aria-label="Contraseña"
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={() => setShowPassword((s) => !s)}
+                    aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                  >
+                    <i className={showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'} />
+                  </button>
+                </div>
                 <div className='d-grid col-10 mx-auto'>
                   {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
                   <button className='btn btn-danger'>
@@ -43,9 +65,15 @@ const Login = () => {
                   </button>
                 </div>
               </form>
-              <Link to='/register'>
-                <i className='fa-solid fa-user-plus'/>Registrarse
-              </Link>
+              <p className='text-center pt-2'>O</p>
+              <div className='d-grid col-10 mx-auto'>
+                <Link to='/register'>
+                  {/* rome-ignore lint/a11y/useButtonType: <explanation> */}
+                  <button className='btn btn-danger w-100'>
+                    <i className='fa-solid fa-user-plus'/>Registrarse
+                  </button>
+                </Link>
+              </div>
               <div className='d-grid col-10 mx-auto mt-4'>
                 <a className='btn btn-success' href='src\utils\pdfs\Manual_usuario.pdf' target='_blank' rel='noreferrer'>
                   <i className='fa-solid fa-book'/> Manual de usuario
