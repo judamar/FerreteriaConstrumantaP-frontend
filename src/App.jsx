@@ -23,6 +23,7 @@ import About from './views/public/About.jsx'
 import TermsAndPrivacy from './views/public/TYC.jsx'
 import PublicSuggestion from './views/public/PublicSuggestion.jsx'
 import WhatsAppIn from './components/WhatsAppIn.jsx'
+import InfoDev from './components/InfoDev.jsx'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
       <BrowserRouter>
         <NavbarComponent/>
         <WhatsAppIn/>
+        <InfoDev/>
         <Routes>
           <Route path="/" element={<Catalog/>}/>
           <Route path="/login" element={<Login/>}/>
