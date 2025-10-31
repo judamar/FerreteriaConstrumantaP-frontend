@@ -15,9 +15,14 @@ const NavbarComponent = () => {
     <nav className="navbar navbar-expand-lg navbar-white bg-danger">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          <img src="/logo.ico" alt="Logo" width="75" height="75" />
+          <img
+            src="/logo.ico"
+            alt="Logo"
+            width="75"
+            height="75"
+            style={{ borderRadius: '10px' }}
+          />
         </Link>
-        <a className='btn btn-sm btn-success pl-2' href='public\HV-Juan_David_Martin_Moreno.pdf' target='_blank' rel='noreferrer'>JuanDavid-Dev</a>
         <Link className="navbar-brand text-white h1" to="/">CONSTRUMANTA P.</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
