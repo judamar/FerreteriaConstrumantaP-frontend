@@ -12,8 +12,8 @@ const NavbarComponent = () => {
   const authUser = storage.get('authUser')
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-white bg-danger">
-      <div className="container-fluid">
+    <nav className="navbar navbar-expand-xxl navbar-white bg-danger">
+      <div className="container-fluid justify-content-center align-items-center">
         <Link className="navbar-brand" to="/">
           <img
             src="/logo.ico"
@@ -23,9 +23,9 @@ const NavbarComponent = () => {
             style={{ borderRadius: '10px' }}
           />
         </Link>
-        <Link className="navbar-brand text-white h1" to="/">CONSTRUMANTA P.</Link>
+        <h1 className="navbar-brand text-white h1">CONSTRUMANTA P.</h1>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon" />
+          <span className="fa-solid fa-bars" />
         </button>
       </div>
       {/* VISTA ADMIN */}
@@ -76,7 +76,7 @@ const NavbarComponent = () => {
               </ul>
             </li>
             <li className='nav-item px-lg-5'>
-              <Link to='/admin/usuarios' className='nav-link text-white'>Usuarios</Link> 
+              <Link to='/admin/usuarios' className='nav-link text-white'>Usuarios</Link>
             </li>
             <li className='nav-item px-lg-5'>
               <Link to='/admin/proveedores' className='nav-link text-white'>Proveedores</Link>
@@ -86,8 +86,11 @@ const NavbarComponent = () => {
             </li>
           </ul>
           <ul className='navbar-nav mx-auto mb-2'>
-            <li className='nav-item px-lg-5 h4'>
-              <button type='button' className='btn btn-warning' onClick={logout}>Salir</button>
+            <li className='nav-item px-lg-5 h3'>
+              <button type='button' className='btn btn-warning' onClick={logout}>
+                <i className="fa fa-sign-out"/>
+                Salir
+              </button>
             </li>
           </ul>
         </div>
